@@ -1,0 +1,29 @@
+---
+title: "RMarkdown Practice"
+author: "Christina"
+date: "2024-01-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Title
+### Title (Heading)
+#### Title (Subtitle)
+Title (Regular Text)
+
+[This is a link](https://www.github.com)
+
+[Christina Chen's (Email)](omqchen@ucdavis.edu)
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
