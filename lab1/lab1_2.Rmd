@@ -61,7 +61,7 @@ Order of operations applies and you don't need to add an '=' sign.
 
 What is going on here? How do we adjust this expression so the output is 12?
 ```{r}
-4-2*6
+(4-2)*6 #added parentheses
 ```
 
 
@@ -84,6 +84,22 @@ median(x)
 
 ```{r}
 sd(x)
+```
+
+```{r}
+a <- c(33, 54, 76, 83, 46, 96, 43, 66)
+mean(a)
+median(a)
+sd(a)
+x+a
+```
+
+```{r}
+b <- 1
+```
+
+```{r}
+rm(b)
 ```
 
 ## RMarkdown  
