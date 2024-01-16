@@ -45,7 +45,7 @@ Github is a platform that allows programmers to store and share code with everyo
 #original answer of 4, new answer of 8 or 16
 (8 - 2 * 2)*2
 (8 - 2 * 2)*4
-#original answer of 8, new answer of 8 or 18
+#original answer of 8, new answer of 8 or 16
 8 / 2 * 2 #this has no change from question
 (8 / 2 * 2)*2
 ```

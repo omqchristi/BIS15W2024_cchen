@@ -1,7 +1,7 @@
 ---
 title: "Lab 1 Homework"
 author: "Christina Chen"
-date: "2024-01-11"
+date: "2024-01-16"
 output:
   html_document: 
     theme: spacelab
@@ -82,7 +82,7 @@ Github is a platform that allows programmers to store and share code with everyo
 ```
 
 ```r
-#original answer of 8, new answer of 8 or 18
+#original answer of 8, new answer of 8 or 16
 8 / 2 * 2 #this has no change from question
 ```
 
