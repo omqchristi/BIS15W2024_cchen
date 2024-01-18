@@ -403,22 +403,7 @@ sleep patterns. From which publication are these data taken from? Since
 the data are built-in you can use the help function in R. The name of
 the data is <code>msleep</code>.</li>
 </ol>
-<pre class="r"><code>msleep</code></pre>
-<pre><code>## # A tibble: 83 × 11
-##    name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
-##    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
-##  1 Cheet… Acin… carni Carn… lc                  12.1      NA        NA      11.9
-##  2 Owl m… Aotus omni  Prim… &lt;NA&gt;                17         1.8      NA       7  
-##  3 Mount… Aplo… herbi Rode… nt                  14.4       2.4      NA       9.6
-##  4 Great… Blar… omni  Sori… lc                  14.9       2.3       0.133   9.1
-##  5 Cow    Bos   herbi Arti… domesticated         4         0.7       0.667  20  
-##  6 Three… Brad… herbi Pilo… &lt;NA&gt;                14.4       2.2       0.767   9.6
-##  7 North… Call… carni Carn… vu                   8.7       1.4       0.383  15.3
-##  8 Vespe… Calo… &lt;NA&gt;  Rode… &lt;NA&gt;                 7        NA        NA      17  
-##  9 Dog    Canis carni Carn… domesticated        10.1       2.9       0.333  13.9
-## 10 Roe d… Capr… herbi Arti… lc                   3        NA        NA      21  
-## # ℹ 73 more rows
-## # ℹ 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+<pre class="r"><code>?msleep # data was taken from V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Store these data into a new data frame <code>sleep</code>.</li>
 </ol>
@@ -428,7 +413,7 @@ the data is <code>msleep</code>.</li>
 observations)? How do you know? Please show the <em>code</em> that you
 used to determine this below.</li>
 </ol>
-<pre class="r"><code>dim(sleep)</code></pre>
+<pre class="r"><code>dim(sleep) # there are 83 rows (observations) and 11 columns (variables)</code></pre>
 <pre><code>## [1] 83 11</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Are there any NAs in the data? How did you determine this? Please
@@ -458,22 +443,54 @@ show your code.</li>
 <ol start="6" style="list-style-type: decimal">
 <li>How many herbivores are represented in the data?</li>
 </ol>
-<pre class="r"><code>table(sleep$vore)</code></pre>
+<pre class="r"><code>table(sleep$vore) #there are 32 herbivores</code></pre>
 <pre><code>## 
 ##   carni   herbi insecti    omni 
 ##      19      32       5      20</code></pre>
 <ol start="7" style="list-style-type: decimal">
-<li><p>We are interested in two groups; small and large mammals. Let’s
+<li>We are interested in two groups; small and large mammals. Let’s
 define small as less than or equal to 19kg body weight and large as
 greater than or equal to 200kg body weight. Make two new dataframes
-(large and small) based on these parameters.</p></li>
-<li><p>What is the mean weight for both the small and large
-mammals?</p></li>
-<li><p>Using a similar approach as above, do large or small animals
-sleep longer on average?</p></li>
-<li><p>Which animal is the sleepiest among the entire
-dataframe?</p></li>
+(large and small) based on these parameters.</li>
 </ol>
+<pre class="r"><code>large_animals &lt;- filter(sleep, bodywt&gt;=19)
+small_animals &lt;- filter(sleep, bodywt&lt;=19)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>What is the mean weight for both the small and large mammals?</li>
+</ol>
+<pre class="r"><code>mean(large_animals$bodywt)</code></pre>
+<pre><code>## [1] 570.1352</code></pre>
+<pre class="r"><code>mean(small_animals$bodywt)</code></pre>
+<pre><code>## [1] 1.797847</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Using a similar approach as above, do large or small animals sleep
+longer on average?</li>
+</ol>
+<pre class="r"><code>mean(large_animals$sleep_total)</code></pre>
+<pre><code>## [1] 7.108333</code></pre>
+<pre class="r"><code>mean(small_animals$sleep_total)</code></pre>
+<pre><code>## [1] 11.78644</code></pre>
+<p>It looks like small animals get more sleep on average.</p>
+<ol start="10" style="list-style-type: decimal">
+<li>Which animal is the sleepiest among the entire dataframe?</li>
+</ol>
+<pre class="r"><code>arrange(sleep, desc(sleep_total))</code></pre>
+<pre><code>## # A tibble: 83 × 11
+##    name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+##  1 Littl… Myot… inse… Chir… &lt;NA&gt;                19.9       2         0.2     4.1
+##  2 Big b… Epte… inse… Chir… lc                  19.7       3.9       0.117   4.3
+##  3 Thick… Lutr… carni Dide… lc                  19.4       6.6      NA       4.6
+##  4 Giant… Prio… inse… Cing… en                  18.1       6.1      NA       5.9
+##  5 North… Dide… omni  Dide… lc                  18         4.9       0.333   6  
+##  6 Long-… Dasy… carni Cing… lc                  17.4       3.1       0.383   6.6
+##  7 Owl m… Aotus omni  Prim… &lt;NA&gt;                17         1.8      NA       7  
+##  8 Arcti… Sper… herbi Rode… lc                  16.6      NA        NA       7.4
+##  9 Golde… Sper… herbi Rode… lc                  15.9       3        NA       8.1
+## 10 Tiger  Pant… carni Carn… en                  15.8      NA        NA       8.2
+## # ℹ 73 more rows
+## # ℹ 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+<p>The Little brown bat gets the most sleep.</p>
 </div>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">

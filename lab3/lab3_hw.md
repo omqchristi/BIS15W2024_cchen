@@ -23,25 +23,7 @@ library(tidyverse)
 1. For this assignment, we are going to use built-in data on mammal sleep patterns. From which publication are these data taken from? Since the data are built-in you can use the help function in R. The name of the data is `msleep`.  
 
 ```r
-msleep
-```
-
-```
-## # A tibble: 83 × 11
-##    name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
-##    <chr>  <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
-##  1 Cheet… Acin… carni Carn… lc                  12.1      NA        NA      11.9
-##  2 Owl m… Aotus omni  Prim… <NA>                17         1.8      NA       7  
-##  3 Mount… Aplo… herbi Rode… nt                  14.4       2.4      NA       9.6
-##  4 Great… Blar… omni  Sori… lc                  14.9       2.3       0.133   9.1
-##  5 Cow    Bos   herbi Arti… domesticated         4         0.7       0.667  20  
-##  6 Three… Brad… herbi Pilo… <NA>                14.4       2.2       0.767   9.6
-##  7 North… Call… carni Carn… vu                   8.7       1.4       0.383  15.3
-##  8 Vespe… Calo… <NA>  Rode… <NA>                 7        NA        NA      17  
-##  9 Dog    Canis carni Carn… domesticated        10.1       2.9       0.333  13.9
-## 10 Roe d… Capr… herbi Arti… lc                   3        NA        NA      21  
-## # ℹ 73 more rows
-## # ℹ 2 more variables: brainwt <dbl>, bodywt <dbl>
+?msleep # data was taken from V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.
 ```
 
 2. Store these data into a new data frame `sleep`.  
@@ -53,7 +35,7 @@ sleep <- msleep
 3. What are the dimensions of this data frame (variables and observations)? How do you know? Please show the *code* that you used to determine this below.  
 
 ```r
-dim(sleep)
+dim(sleep) # there are 83 rows (observations) and 11 columns (variables)
 ```
 
 ```
@@ -97,7 +79,7 @@ names(sleep)
 6. How many herbivores are represented in the data?  
 
 ```r
-table(sleep$vore)
+table(sleep$vore) #there are 32 herbivores
 ```
 
 ```
@@ -108,18 +90,77 @@ table(sleep$vore)
 
 7. We are interested in two groups; small and large mammals. Let's define small as less than or equal to 19kg body weight and large as greater than or equal to 200kg body weight. Make two new dataframes (large and small) based on these parameters.
 
+```r
+large_animals <- filter(sleep, bodywt>=19)
+small_animals <- filter(sleep, bodywt<=19)
+```
 
 8. What is the mean weight for both the small and large mammals?
 
+```r
+mean(large_animals$bodywt)
+```
+
+```
+## [1] 570.1352
+```
 
 
+```r
+mean(small_animals$bodywt)
+```
+
+```
+## [1] 1.797847
+```
 
 9. Using a similar approach as above, do large or small animals sleep longer on average?  
 
 
+```r
+mean(large_animals$sleep_total)
+```
+
+```
+## [1] 7.108333
+```
+
+```r
+mean(small_animals$sleep_total)
+```
+
+```
+## [1] 11.78644
+```
+
+It looks like small animals get more sleep on average.
 
 10. Which animal is the sleepiest among the entire dataframe?
 
+
+```r
+arrange(sleep, desc(sleep_total))
+```
+
+```
+## # A tibble: 83 × 11
+##    name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##    <chr>  <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
+##  1 Littl… Myot… inse… Chir… <NA>                19.9       2         0.2     4.1
+##  2 Big b… Epte… inse… Chir… lc                  19.7       3.9       0.117   4.3
+##  3 Thick… Lutr… carni Dide… lc                  19.4       6.6      NA       4.6
+##  4 Giant… Prio… inse… Cing… en                  18.1       6.1      NA       5.9
+##  5 North… Dide… omni  Dide… lc                  18         4.9       0.333   6  
+##  6 Long-… Dasy… carni Cing… lc                  17.4       3.1       0.383   6.6
+##  7 Owl m… Aotus omni  Prim… <NA>                17         1.8      NA       7  
+##  8 Arcti… Sper… herbi Rode… lc                  16.6      NA        NA       7.4
+##  9 Golde… Sper… herbi Rode… lc                  15.9       3        NA       8.1
+## 10 Tiger  Pant… carni Carn… en                  15.8      NA        NA       8.2
+## # ℹ 73 more rows
+## # ℹ 2 more variables: brainwt <dbl>, bodywt <dbl>
+```
+
+The Little brown bat gets the most sleep.
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
