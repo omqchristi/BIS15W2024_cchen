@@ -1,7 +1,7 @@
 ---
 title: "Lab 3 Homework"
 author: "Christina Chen"
-date: "2024-01-18"
+date: "2024-01-19"
 output:
   html_document: 
     theme: spacelab
@@ -139,24 +139,16 @@ It looks like small animals get more sleep on average.
 
 
 ```r
-arrange(sleep, desc(sleep_total))
+filter(sleep, sleep_total>=19)
 ```
 
 ```
-## # A tibble: 83 × 11
-##    name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
-##    <chr>  <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
-##  1 Littl… Myot… inse… Chir… <NA>                19.9       2         0.2     4.1
-##  2 Big b… Epte… inse… Chir… lc                  19.7       3.9       0.117   4.3
-##  3 Thick… Lutr… carni Dide… lc                  19.4       6.6      NA       4.6
-##  4 Giant… Prio… inse… Cing… en                  18.1       6.1      NA       5.9
-##  5 North… Dide… omni  Dide… lc                  18         4.9       0.333   6  
-##  6 Long-… Dasy… carni Cing… lc                  17.4       3.1       0.383   6.6
-##  7 Owl m… Aotus omni  Prim… <NA>                17         1.8      NA       7  
-##  8 Arcti… Sper… herbi Rode… lc                  16.6      NA        NA       7.4
-##  9 Golde… Sper… herbi Rode… lc                  15.9       3        NA       8.1
-## 10 Tiger  Pant… carni Carn… en                  15.8      NA        NA       8.2
-## # ℹ 73 more rows
+## # A tibble: 3 × 11
+##   name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+##   <chr>   <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
+## 1 Big br… Epte… inse… Chir… lc                  19.7       3.9       0.117   4.3
+## 2 Thick-… Lutr… carni Dide… lc                  19.4       6.6      NA       4.6
+## 3 Little… Myot… inse… Chir… <NA>                19.9       2         0.2     4.1
 ## # ℹ 2 more variables: brainwt <dbl>, bodywt <dbl>
 ```
 

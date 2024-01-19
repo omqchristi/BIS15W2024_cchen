@@ -76,7 +76,7 @@ It looks like small animals get more sleep on average.
 10. Which animal is the sleepiest among the entire dataframe?
 
 ```{r}
-arrange(sleep, desc(sleep_total))
+filter(sleep, sleep_total>=19)
 ```
 
 The Little brown bat gets the most sleep.
