@@ -1,6 +1,6 @@
 ---
 title: "Lab 4 Homework"
-author: "Please Add Your Name Here"
+author: "Christina Chen"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -58,6 +58,10 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 ```{r}
 
 ```
+
+
+### STOP HERE
+
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
 ```{r}

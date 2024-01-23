@@ -53,7 +53,8 @@ filter(fish, length >= 350)
 
 Using the `!` operator allows for the exclusion of specific observations.
 ```{r}
-filter(fish, lakeid != "AL")
+not_AL <- filter(fish, lakeid != "AL")
+not_AL
 ```
 
 ## Using `filter()` with multiple observations  
@@ -69,7 +70,7 @@ filter(fish, between(scalelength, 2.5, 2.55))
 
 You can also extract observations "near" a certain value but you need to specify a tolerance.  
 ```{r}
-filter(fish, near(radii_length_mm, 2, tol = 0.2))
+filter(fish, near(radii_length_mm, 2, tol = 0.2)) # need to add a tolerance
 ```
 
 ## Practice

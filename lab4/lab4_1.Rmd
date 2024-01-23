@@ -25,13 +25,14 @@ library("tidyverse")
 ## Load the data
 These data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267)  
 ```{r}
-fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv")
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv") # readr is part of tidyverse, code works with or without it
 ```
 
 ## Data Structure
 Once data have been uploaded, let's get an idea of its structure, contents, and dimensions.  
 ```{r}
-
+glimpse(fish)
+summary(fish)
 ```
 
 ## Tidyverse
@@ -55,6 +56,10 @@ select(fish, "lakeid", "scalelength")
 To add a range of columns use `start_col:end_col`.
 ```{r}
 select(fish, fish_id:length)
+```
+
+```{r}
+fish_subset <- select(fish, "fish_id", "length")
 ```
 
 The - operator is useful in select. It allows us to select everything except the specified variables.
@@ -97,7 +102,7 @@ select(fish, contains("fish"))
 
 We won't cover regular expressions [regex](https://en.wikipedia.org/wiki/Regular_expression) in this class, but the following code is helpful when you know that a column contains a letter (in this case "a") followed by a subsequent string (in this case "er").  
 ```{r}
-select(fish, matches("a.+er"))
+select(fish, matches("a.+er")) # handy bit of code for the project
 ```
 
 You can also select columns based on the class of data.  
@@ -120,59 +125,71 @@ For this exercise we will use life history data `mammal_lifehistories_v2.csv` fo
 
 Load the data.  
 ```{r}
-
+mammals <- read_csv("data/mammal_lifehistories_v2.csv")
 ```
 
 1. Use one or more of your favorite functions to assess the structure of the data.  
 ```{r}
-
+mammals
+summary(mammals)
 ```
 
 2. Are there any NAs? Are you sure? Try taking an average of `max. life` as a test.  
 ```{r}
-
+mammals
+glimpse(mammals) # there is too much data to easily see if there are NA
 ```
 
 ```{r}
-
+anyNA(mammals)
 ```
 
 ```{r}
+mean(mammals$`max. life`) # the average is a negative number
+```
 
+```{r}
+filter(mammals, `max. life` <= 0) # all of these are errors, it seems that -999 has replaced "NA" causing many problems across all variables
 ```
 
 3. What are the names of the columns in the `mammals` data?
 ```{r}
-
+names(mammals)
 ```
 
 4. Rename any columns that have capitol letters or punctuation issues.  
 ```{r}
-
+mammals.new <- rename(mammals, 
+                  max.life="max. life", 
+                  afr="AFR", 
+                  genus="Genus", 
+                  litter.size="litter size",
+                  litters.per.year="litters/year",
+                  wean.mass="wean mass")
 ```
 
 5. We are only interested in the variables `genus`, `species`, and `mass`. Use `select()` to build a new dataframe `mass` focused on these variables.
 ```{r}
-
+mass <- select(mammals.new, "genus", "species", "mass")
 ```
 
 ```{r}
-
+mass
 ```
 
 6. What if we only wanted to exclude `order` and `family`? Use the `-` operator to make the code efficient.
 ```{r}
-
+select(mammals.new, -"order", -"family")
 ```
 
 7. Select the columns that include "mass" as part of the name.  
 ```{r}
-
+select(mammals.new, contains("mass"))
 ```
 
 8. Select all of the columns that are of class `character`.  
 ```{r}
-
+select_if(mammals.new, is.character)
 ```
 
 ## Other
@@ -180,12 +197,21 @@ Here are two examples of code that are super helpful to have in your bag of tric
 
 Imported data frames often have a mix of lower and uppercase column names. Use `toupper()` or `tolower()` to fix this issue. I always try to use lowercase to keep things consistent.  
 ```{r}
+mammals.lower <- select_all(mammals, tolower)
+```
 
+```{r}
+library(janitor)
+names(mammals)
+```
+
+```{r}
+clean_names(mammals)
 ```
 
 When naming columns, blank spaces are often added (don't do this, please). Here is a trick to remove these.  
 ```{r}
-#select_all(mammals, ~str_replace(., " ", "_"))
+#select_all(mammals.new, ~str_replace(., " ", "_"))
 ```
 
 ## That's it! Let's take a break and then move on to part 2! 
