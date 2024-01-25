@@ -80,33 +80,62 @@ table(homerange$taxon)
 table(homerange$trophic.guild)
 ```
 
-
-### STOP HERE
-
-
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
 ```{r}
+herbivores <- filter(homerange, trophic.guild == "herbivore")
+herbivores
+```
 
+```{r}
+carnivores <- filter(homerange, trophic.guild == "carnivore")
+carnivores
 ```
 
 **8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.**  
 ```{r}
-
+mean(herbivores$mean.hra.m2, na.rm=T)
 ```
 
 ```{r}
-
+mean(carnivores$mean.hra.m2, na.rm=T)
 ```
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 ```{r}
-
+owls <- filter(homerange, order == "strigiformes")
+owls
 ```
+
+```{r}
+new_owls <- select(owls, mean.mass.g, log10.mass, family, genus, species)
+new_owls
+```
+
+```{r}
+filter(owls, mean.mass.g <= 62)
+```
+
+```{r}
+filter(homerange, mean.mass.g <= 0.3)
+```
+
+The Eurasian pygmy owl are the smallest owls in Europe. They have brown or grey coloration with spotted sides.
+
+Source: [Wikipedia](https://en.wikipedia.org/wiki/Eurasian_pygmy_owl)
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 ```{r}
-
+birds <- filter(homerange, taxon == "birds")
+birds
 ```
+
+```{r}
+filter(birds, mean.hra.m2 >= 240000000)
+```
+
+Caracara birds are distunguished by their long legs. They have a dark coloration in their body, but colorful beak.
+
+Source: [Wikipedia](https://en.wikipedia.org/wiki/Caracara_(genus))
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
