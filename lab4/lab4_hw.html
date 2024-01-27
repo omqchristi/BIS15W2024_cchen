@@ -11,7 +11,7 @@
 
 <meta name="author" content="Christina Chen" />
 
-<meta name="date" content="2024-01-23" />
+<meta name="date" content="2024-01-27" />
 
 <title>Lab 4 Homework</title>
 
@@ -376,7 +376,7 @@ display: none;
 
 <h1 class="title toc-ignore">Lab 4 Homework</h1>
 <h4 class="author">Christina Chen</h4>
-<h4 class="date">2024-01-23</h4>
+<h4 class="date">2024-01-27</h4>
 
 </div>
 
@@ -600,21 +600,154 @@ guild.</strong></p>
 <pre><code>## 
 ## carnivore herbivore 
 ##       342       227</code></pre>
-<div id="stop-here" class="section level3">
-<h3>STOP HERE</h3>
 <p><strong>7. Make two new data frames, one which is restricted to
 carnivores and another that is restricted to herbivores.</strong></p>
+<pre class="r"><code>herbivores &lt;- filter(homerange, trophic.guild == &quot;herbivore&quot;)
+herbivores</code></pre>
+<pre><code>## # A tibble: 227 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    &lt;fct&gt;        &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 marine fish… lined surg… acti… perc… acant… acan… lineat… direct obser… &lt;NA&gt; 
+##  2 marine fish… orangespin… acti… perc… acant… naso  litura… telemetry     8    
+##  3 marine fish… bluespine … acti… perc… acant… naso  unicor… telemetry     7    
+##  4 marine fish… redlip ble… acti… perc… blenn… ophi… atlant… direct obser… 20   
+##  5 marine fish… bermuda ch… acti… perc… kypho… kyph… sectat… telemetry     11   
+##  6 marine fish… cherubfish  acti… perc… pomac… cent… argi    direct obser… &lt;NA&gt; 
+##  7 marine fish… damselfish  acti… perc… pomac… chro… chromis direct obser… &lt;NA&gt; 
+##  8 marine fish… twinspot d… acti… perc… pomac… chry… biocel… direct obser… 18   
+##  9 marine fish… wards dams… acti… perc… pomac… poma… wardi   direct obser… &lt;NA&gt; 
+## 10 marine fish… australian… acti… perc… pomac… steg… apical… direct obser… &lt;NA&gt; 
+## # ℹ 217 more rows
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<pre class="r"><code>carnivores &lt;- filter(homerange, trophic.guild == &quot;carnivore&quot;)
+carnivores</code></pre>
+<pre><code>## # A tibble: 342 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    &lt;fct&gt;        &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 lake fishes  american e… acti… angu… angui… angu… rostra… telemetry     16   
+##  2 river fishes blacktail … acti… cypr… catos… moxo… poecil… mark-recaptu… &lt;NA&gt; 
+##  3 river fishes central st… acti… cypr… cypri… camp… anomal… mark-recaptu… 20   
+##  4 river fishes rosyside d… acti… cypr… cypri… clin… fundul… mark-recaptu… 26   
+##  5 river fishes longnose d… acti… cypr… cypri… rhin… catara… mark-recaptu… 17   
+##  6 river fishes muskellunge acti… esoc… esoci… esox  masqui… telemetry     5    
+##  7 marine fish… pollack     acti… gadi… gadid… poll… pollac… telemetry     2    
+##  8 marine fish… saithe      acti… gadi… gadid… poll… virens  telemetry     2    
+##  9 marine fish… giant trev… acti… perc… caran… cara… ignobi… telemetry     4    
+## 10 lake fishes  rock bass   acti… perc… centr… ambl… rupest… mark-recaptu… 16   
+## # ℹ 332 more rows
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
 <p><strong>8. Do herbivores or carnivores have, on average, a larger
 <code>mean.hra.m2</code>? Remove any NAs from the data.</strong></p>
+<pre class="r"><code>mean(herbivores$mean.hra.m2, na.rm=T)</code></pre>
+<pre><code>## [1] 34137012</code></pre>
+<pre class="r"><code>mean(carnivores$mean.hra.m2, na.rm=T)</code></pre>
+<pre><code>## [1] 13039918</code></pre>
 <p><strong>9. Make a new dataframe <code>owls</code> that is limited to
 the mean mass, log10 mass, family, genus, and species of owls in the
 database. Which is the smallest owl? What is its common name? Do a
 little bit of searching online to see what you can learn about this
 species and provide a link below</strong></p>
+<pre class="r"><code>owls &lt;- filter(homerange, order == &quot;strigiformes&quot;)
+owls</code></pre>
+<pre><code>## # A tibble: 9 × 24
+##   taxon common.name        class order  family genus species primarymethod N    
+##   &lt;fct&gt; &lt;chr&gt;              &lt;chr&gt; &lt;fct&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+## 1 birds boreal owl         aves  strig… strig… aego… funere… telemetry*    &lt;NA&gt; 
+## 2 birds long-eared owl     aves  strig… strig… asio  otus    telemetry*    &lt;NA&gt; 
+## 3 birds little owl         aves  strig… strig… athe… noctua  telemetry*    &lt;NA&gt; 
+## 4 birds Eurasian eagle-owl aves  strig… strig… bubo  bubo    telemetry*    &lt;NA&gt; 
+## 5 birds great horned owl   aves  strig… strig… bubo  virgin… direct obser… &lt;NA&gt; 
+## 6 birds Eurasian pygmy owl aves  strig… strig… glau… passer… telemetry*    &lt;NA&gt; 
+## 7 birds snowy owl          aves  strig… strig… nyct… scandi… direct obser… &lt;NA&gt; 
+## 8 birds tawny owl          aves  strig… strig… strix aluco   direct obser… 55   
+## 9 birds barn owl           aves  strig… tyton… tyto  alba    telemetry*    &lt;NA&gt; 
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<pre class="r"><code>new_owls &lt;- select(owls, mean.mass.g, log10.mass, family, genus, species)
+new_owls</code></pre>
+<pre><code>## # A tibble: 9 × 5
+##   mean.mass.g log10.mass family    genus      species    
+##         &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
+## 1       119         2.08 strigidae aegolius   funereus   
+## 2       252         2.40 strigidae asio       otus       
+## 3       156.        2.19 strigidae athene     noctua     
+## 4      2191         3.34 strigidae bubo       bubo       
+## 5      1510         3.18 strigidae bubo       virginianus
+## 6        61.3       1.79 strigidae glaucidium passerinum 
+## 7      1920         3.28 strigidae nyctea     scandiaca  
+## 8       519         2.72 strigidae strix      aluco      
+## 9       285         2.45 tytonidae tyto       alba</code></pre>
+<pre class="r"><code>filter(owls, mean.mass.g &lt;= 62)</code></pre>
+<pre><code>## # A tibble: 1 × 24
+##   taxon common.name        class order  family genus species primarymethod N    
+##   &lt;fct&gt; &lt;chr&gt;              &lt;chr&gt; &lt;fct&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+## 1 birds Eurasian pygmy owl aves  strig… strig… glau… passer… telemetry*    &lt;NA&gt; 
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<pre class="r"><code>filter(homerange, mean.mass.g &lt;= 0.3)</code></pre>
+<pre><code>## # A tibble: 1 × 24
+##   taxon         common.name class order family genus species primarymethod N    
+##   &lt;fct&gt;         &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+## 1 marine fishes rusty goby  acti… perc… gobii… prio… hipoli… direct obser… &lt;NA&gt; 
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<p>The Eurasian pygmy owl are the smallest owls in Europe. They have
+brown or grey coloration with spotted sides.</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/Eurasian_pygmy_owl">Wikipedia</a></p>
 <p><strong>10. As measured by the data, which bird species has the
 largest homerange? Show all of your work, please. Look this species up
 online and tell me about it!</strong>.</p>
-</div>
+<pre class="r"><code>birds &lt;- filter(homerange, taxon == &quot;birds&quot;)
+birds</code></pre>
+<pre><code>## # A tibble: 140 × 24
+##    taxon common.name        class order family genus species primarymethod N    
+##    &lt;fct&gt; &lt;chr&gt;              &lt;chr&gt; &lt;fct&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+##  1 birds golden eagle       aves  acci… accip… aqui… chrysa… telemetry*    &lt;NA&gt; 
+##  2 birds common buzzard     aves  acci… accip… buteo buteo   telemetry*    &lt;NA&gt; 
+##  3 birds short-toed snake … aves  acci… accip… circ… gallic… telemetry*    &lt;NA&gt; 
+##  4 birds Bonelli&#39;s eagle    aves  acci… accip… hier… fascia… telemetry*    &lt;NA&gt; 
+##  5 birds booted eagle       aves  acci… accip… hier… pennat… telemetry     4    
+##  6 birds Egyptian vulture   aves  acci… accip… neop… percno… telemetry*    &lt;NA&gt; 
+##  7 birds gadwall            aves  anse… anati… anas  strepe… telemetry     3    
+##  8 birds northern brown ki… aves  apte… apter… apte… austra… telemetry     6    
+##  9 birds European nightjar  aves  capr… capri… capr… europa… telemetry*    &lt;NA&gt; 
+## 10 birds oystercatcher      aves  char… haema… haem… ostral… telemetry     8    
+## # ℹ 130 more rows
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<pre class="r"><code>filter(birds, mean.hra.m2 &gt;= 240000000)</code></pre>
+<pre><code>## # A tibble: 1 × 24
+##   taxon common.name class order         family genus species primarymethod N    
+##   &lt;fct&gt; &lt;chr&gt;       &lt;chr&gt; &lt;fct&gt;         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;
+## 1 birds caracara    aves  falconiformes falco… cara… cheriw… telemetry     26   
+## # ℹ 15 more variables: mean.mass.g &lt;dbl&gt;, log10.mass &lt;dbl&gt;,
+## #   alternative.mass.reference &lt;chr&gt;, mean.hra.m2 &lt;dbl&gt;, log10.hra &lt;dbl&gt;,
+## #   hra.reference &lt;chr&gt;, realm &lt;chr&gt;, thermoregulation &lt;chr&gt;, locomotion &lt;chr&gt;,
+## #   trophic.guild &lt;chr&gt;, dimension &lt;dbl&gt;, preymass &lt;dbl&gt;, log10.preymass &lt;dbl&gt;,
+## #   PPMR &lt;dbl&gt;, prey.size.reference &lt;chr&gt;</code></pre>
+<p>Caracara birds are distunguished by their long legs. They have a dark
+coloration in their body, but colorful beak.</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/Caracara_(genus)">Wikipedia</a></p>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
