@@ -413,51 +413,441 @@ titled <code>fisheries</code>.</p>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol style="list-style-type: decimal">
-<li><p>Do an exploratory analysis of the data (your choice). What are
-the names of the variables, what are the dimensions, are there any NA’s,
-what are the classes of the variables?</p></li>
-<li><p>Use <code>janitor</code> to rename the columns and make them
-easier to use. As part of this cleaning step, change
-<code>country</code>, <code>isscaap_group_number</code>,
-<code>asfis_species_number</code>, and
-<code>fao_major_fishing_area</code> to data class factor.</p></li>
+<li>Do an exploratory analysis of the data (your choice). What are the
+names of the variables, what are the dimensions, are there any NA’s,
+what are the classes of the variables?</li>
 </ol>
+<pre class="r"><code>names(fisheries)</code></pre>
+<pre><code>##  [1] &quot;Country&quot;                 &quot;Common name&quot;            
+##  [3] &quot;ISSCAAP group#&quot;          &quot;ISSCAAP taxonomic group&quot;
+##  [5] &quot;ASFIS species#&quot;          &quot;ASFIS species name&quot;     
+##  [7] &quot;FAO major fishing area&quot;  &quot;Measure&quot;                
+##  [9] &quot;1950&quot;                    &quot;1951&quot;                   
+## [11] &quot;1952&quot;                    &quot;1953&quot;                   
+## [13] &quot;1954&quot;                    &quot;1955&quot;                   
+## [15] &quot;1956&quot;                    &quot;1957&quot;                   
+## [17] &quot;1958&quot;                    &quot;1959&quot;                   
+## [19] &quot;1960&quot;                    &quot;1961&quot;                   
+## [21] &quot;1962&quot;                    &quot;1963&quot;                   
+## [23] &quot;1964&quot;                    &quot;1965&quot;                   
+## [25] &quot;1966&quot;                    &quot;1967&quot;                   
+## [27] &quot;1968&quot;                    &quot;1969&quot;                   
+## [29] &quot;1970&quot;                    &quot;1971&quot;                   
+## [31] &quot;1972&quot;                    &quot;1973&quot;                   
+## [33] &quot;1974&quot;                    &quot;1975&quot;                   
+## [35] &quot;1976&quot;                    &quot;1977&quot;                   
+## [37] &quot;1978&quot;                    &quot;1979&quot;                   
+## [39] &quot;1980&quot;                    &quot;1981&quot;                   
+## [41] &quot;1982&quot;                    &quot;1983&quot;                   
+## [43] &quot;1984&quot;                    &quot;1985&quot;                   
+## [45] &quot;1986&quot;                    &quot;1987&quot;                   
+## [47] &quot;1988&quot;                    &quot;1989&quot;                   
+## [49] &quot;1990&quot;                    &quot;1991&quot;                   
+## [51] &quot;1992&quot;                    &quot;1993&quot;                   
+## [53] &quot;1994&quot;                    &quot;1995&quot;                   
+## [55] &quot;1996&quot;                    &quot;1997&quot;                   
+## [57] &quot;1998&quot;                    &quot;1999&quot;                   
+## [59] &quot;2000&quot;                    &quot;2001&quot;                   
+## [61] &quot;2002&quot;                    &quot;2003&quot;                   
+## [63] &quot;2004&quot;                    &quot;2005&quot;                   
+## [65] &quot;2006&quot;                    &quot;2007&quot;                   
+## [67] &quot;2008&quot;                    &quot;2009&quot;                   
+## [69] &quot;2010&quot;                    &quot;2011&quot;                   
+## [71] &quot;2012&quot;</code></pre>
+<pre class="r"><code>dim(fisheries)</code></pre>
+<pre><code>## [1] 17692    71</code></pre>
+<pre class="r"><code>glimpse(fisheries)</code></pre>
+<pre><code>## Rows: 17,692
+## Columns: 71
+## $ Country                   &lt;chr&gt; &quot;Albania&quot;, &quot;Albania&quot;, &quot;Albania&quot;, &quot;Albania&quot;, …
+## $ `Common name`             &lt;chr&gt; &quot;Angelsharks, sand devils nei&quot;, &quot;Atlantic bo…
+## $ `ISSCAAP group#`          &lt;dbl&gt; 38, 36, 37, 45, 32, 37, 33, 45, 38, 57, 33, …
+## $ `ISSCAAP taxonomic group` &lt;chr&gt; &quot;Sharks, rays, chimaeras&quot;, &quot;Tunas, bonitos, …
+## $ `ASFIS species#`          &lt;chr&gt; &quot;10903XXXXX&quot;, &quot;1750100101&quot;, &quot;17710001XX&quot;, &quot;2…
+## $ `ASFIS species name`      &lt;chr&gt; &quot;Squatinidae&quot;, &quot;Sarda sarda&quot;, &quot;Sphyraena spp…
+## $ `FAO major fishing area`  &lt;dbl&gt; 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, …
+## $ Measure                   &lt;chr&gt; &quot;Quantity (tonnes)&quot;, &quot;Quantity (tonnes)&quot;, &quot;Q…
+## $ `1950`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1951`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1952`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1953`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1954`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1955`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1956`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1957`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1958`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1959`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1960`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1961`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1962`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1963`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1964`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1965`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1966`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1967`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1968`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1969`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1970`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1971`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1972`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1973`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1974`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1975`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1976`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1977`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1978`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1979`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1980`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1981`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1982`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ `1983`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;559&quot;, NA, NA, NA, N…
+## $ `1984`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;392&quot;, NA, NA, NA, N…
+## $ `1985`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;406&quot;, NA, NA, NA, N…
+## $ `1986`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;499&quot;, NA, NA, NA, N…
+## $ `1987`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;564&quot;, NA, NA, NA, N…
+## $ `1988`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;724&quot;, NA, NA, NA, N…
+## $ `1989`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;583&quot;, NA, NA, NA, N…
+## $ `1990`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;754&quot;, NA, NA, NA, N…
+## $ `1991`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;283&quot;, NA, NA, NA, N…
+## $ `1992`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;196&quot;, NA, NA, NA, N…
+## $ `1993`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;150 F&quot;, NA, NA, NA,…
+## $ `1994`                    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;100 F&quot;, NA, NA, NA,…
+## $ `1995`                    &lt;chr&gt; &quot;0 0&quot;, &quot;1&quot;, NA, &quot;0 0&quot;, &quot;0 0&quot;, NA, &quot;52&quot;, &quot;30&quot;…
+## $ `1996`                    &lt;chr&gt; &quot;53&quot;, &quot;2&quot;, NA, &quot;3&quot;, &quot;2&quot;, NA, &quot;104&quot;, &quot;8&quot;, NA,…
+## $ `1997`                    &lt;chr&gt; &quot;20&quot;, &quot;0 0&quot;, NA, &quot;0 0&quot;, &quot;0 0&quot;, NA, &quot;65&quot;, &quot;4&quot;…
+## $ `1998`                    &lt;chr&gt; &quot;31&quot;, &quot;12&quot;, NA, NA, NA, NA, &quot;220&quot;, &quot;18&quot;, NA,…
+## $ `1999`                    &lt;chr&gt; &quot;30&quot;, &quot;30&quot;, NA, NA, NA, NA, &quot;220&quot;, &quot;18&quot;, NA,…
+## $ `2000`                    &lt;chr&gt; &quot;30&quot;, &quot;25&quot;, &quot;2&quot;, NA, NA, NA, &quot;220&quot;, &quot;20&quot;, NA…
+## $ `2001`                    &lt;chr&gt; &quot;16&quot;, &quot;30&quot;, NA, NA, NA, NA, &quot;120&quot;, &quot;23&quot;, NA,…
+## $ `2002`                    &lt;chr&gt; &quot;79&quot;, &quot;24&quot;, NA, &quot;34&quot;, &quot;6&quot;, NA, &quot;150&quot;, &quot;84&quot;, …
+## $ `2003`                    &lt;chr&gt; &quot;1&quot;, &quot;4&quot;, NA, &quot;22&quot;, NA, NA, &quot;84&quot;, &quot;178&quot;, NA,…
+## $ `2004`                    &lt;chr&gt; &quot;4&quot;, &quot;2&quot;, &quot;2&quot;, &quot;15&quot;, &quot;1&quot;, &quot;2&quot;, &quot;76&quot;, &quot;285&quot;, …
+## $ `2005`                    &lt;chr&gt; &quot;68&quot;, &quot;23&quot;, &quot;4&quot;, &quot;12&quot;, &quot;5&quot;, &quot;6&quot;, &quot;68&quot;, &quot;150&quot;…
+## $ `2006`                    &lt;chr&gt; &quot;55&quot;, &quot;30&quot;, &quot;7&quot;, &quot;18&quot;, &quot;8&quot;, &quot;9&quot;, &quot;86&quot;, &quot;102&quot;…
+## $ `2007`                    &lt;chr&gt; &quot;12&quot;, &quot;19&quot;, NA, NA, NA, NA, &quot;132&quot;, &quot;18&quot;, NA,…
+## $ `2008`                    &lt;chr&gt; &quot;23&quot;, &quot;27&quot;, NA, NA, NA, NA, &quot;132&quot;, &quot;23&quot;, NA,…
+## $ `2009`                    &lt;chr&gt; &quot;14&quot;, &quot;21&quot;, NA, NA, NA, NA, &quot;154&quot;, &quot;20&quot;, NA,…
+## $ `2010`                    &lt;chr&gt; &quot;78&quot;, &quot;23&quot;, &quot;7&quot;, NA, NA, NA, &quot;80&quot;, &quot;228&quot;, NA…
+## $ `2011`                    &lt;chr&gt; &quot;12&quot;, &quot;12&quot;, NA, NA, NA, NA, &quot;88&quot;, &quot;9&quot;, NA, &quot;…
+## $ `2012`                    &lt;chr&gt; &quot;5&quot;, &quot;5&quot;, NA, NA, NA, NA, &quot;129&quot;, &quot;290&quot;, NA, …</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>janitor</code> to rename the columns and make them easier
+to use. As part of this cleaning step, change <code>country</code>,
+<code>isscaap_group_number</code>, <code>asfis_species_number</code>,
+and <code>fao_major_fishing_area</code> to data class factor.</li>
+</ol>
+<pre class="r"><code>fisheries &lt;- clean_names(fisheries)</code></pre>
+<pre class="r"><code>fisheries$country &lt;- as.factor(fisheries$country)
+fisheries$isscaap_group_number &lt;- as.factor(fisheries$isscaap_group_number)
+fisheries$asfis_species_number &lt;- as.factor(fisheries$asfis_species_number)
+fisheries$fao_major_fishing_area &lt;- as.factor(fisheries$fao_major_fishing_area)</code></pre>
 <p>We need to deal with the years because they are being treated as
 characters and start with an X. We also have the problem that the column
 names that are years actually represent data. We haven’t discussed tidy
 data yet, so here is some help. You should run this ugly chunk to
 transform the data for the rest of the homework. It will only work if
 you have used janitor to rename the variables in question 2!</p>
-<pre class="r"><code>#fisheries_tidy &lt;- fisheries %&gt;% 
-#  pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfi#s_species_number,asfis_species_name,fao_major_fishing_area,measure),
-#               names_to = &quot;year&quot;,
-#               values_to = &quot;catch&quot;,
-#               values_drop_na = TRUE) %&gt;% 
-#  mutate(year= as.numeric(str_replace(year, &#39;x&#39;, &#39;&#39;))) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39; F&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;...&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;-&#39;), replacement = &#39;&#39;)) %&gt;% 
-#  mutate(catch= str_replace(catch, c(&#39;0 0&#39;), replacement = &#39;&#39;))
+<pre class="r"><code>fisheries_tidy &lt;- fisheries %&gt;% 
+  pivot_longer(-c(country,common_name,isscaap_group_number,isscaap_taxonomic_group,asfis_species_number,asfis_species_name,fao_major_fishing_area,measure),
+               names_to = &quot;year&quot;,
+               values_to = &quot;catch&quot;,
+               values_drop_na = TRUE) %&gt;% 
+  mutate(year= as.numeric(str_replace(year, &#39;x&#39;, &#39;&#39;))) %&gt;% 
+  mutate(catch= str_replace(catch, c(&#39; F&#39;), replacement = &#39;&#39;)) %&gt;% 
+  mutate(catch= str_replace(catch, c(&#39;...&#39;), replacement = &#39;&#39;)) %&gt;% 
+  mutate(catch= str_replace(catch, c(&#39;-&#39;), replacement = &#39;&#39;)) %&gt;% 
+  mutate(catch= str_replace(catch, c(&#39;0 0&#39;), replacement = &#39;&#39;))
 
-#fisheries_tidy$catch &lt;- as.numeric(fisheries_tidy$catch)</code></pre>
+fisheries_tidy$catch &lt;- as.numeric(fisheries_tidy$catch)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li><p>How many countries are represented in the data? Provide a count
-and list their names.</p></li>
-<li><p>Refocus the data only to include country,
-isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year,
-catch.</p></li>
-<li><p>Based on the asfis_species_number, how many distinct fish species
-were caught as part of these data?</p></li>
-<li><p>Which country had the largest overall catch in the year
-2000?</p></li>
-<li><p>Which country caught the most sardines (<em>Sardina
-pilchardus</em>) between the years 1990-2000?</p></li>
-<li><p>Which five countries caught the most cephalopods between
-2008-2012?</p></li>
-<li><p>Which species had the highest catch total between 2008-2012?
-(hint: Osteichthyes is not a species)</p></li>
-<li><p>Use the data to do at least one analysis of your choice.</p></li>
+<li>How many countries are represented in the data? Provide a count and
+list their names.</li>
 </ol>
+<pre class="r"><code>table(fisheries_tidy$country)</code></pre>
+<pre><code>## 
+##                   Albania                   Algeria            American Samoa 
+##                       934                      1561                       556 
+##                    Angola                  Anguilla       Antigua and Barbuda 
+##                      2119                       129                       356 
+##                 Argentina                     Aruba                 Australia 
+##                      3403                       172                      8183 
+##                   Bahamas                   Bahrain                Bangladesh 
+##                       423                      1169                       169 
+##                  Barbados                   Belgium                    Belize 
+##                       795                      2530                      1075 
+##                     Benin                   Bermuda  Bonaire/S.Eustatius/Saba 
+##                      1419                       846                         4 
+##    Bosnia and Herzegovina                    Brazil  British Indian Ocean Ter 
+##                        21                      4784                        97 
+##    British Virgin Islands         Brunei Darussalam                  Bulgaria 
+##                       332                       186                      1596 
+##                Cabo Verde                  Cambodia                  Cameroon 
+##                       462                       238                      1340 
+##                    Canada            Cayman Islands           Channel Islands 
+##                      5099                        84                      1313 
+##                     Chile                     China      China, Hong Kong SAR 
+##                      3878                      2801                      1782 
+##          China, Macao SAR                  Colombia                   Comoros 
+##                       206                      2710                       965 
+##   Congo, Dem. Rep. of the        Congo, Republic of              Cook Islands 
+##                       484                      1527                       810 
+##                Costa Rica                   Croatia                      Cuba 
+##                      1171                       947                      2981 
+##                Cura\xe7ao                    Cyprus          C\xf4te d&#39;Ivoire 
+##                        18                      1703                      1859 
+##                   Denmark                  Djibouti                  Dominica 
+##                      3741                       352                       213 
+##        Dominican Republic                   Ecuador                     Egypt 
+##                      1958                      1595                      2467 
+##               El Salvador         Equatorial Guinea                   Eritrea 
+##                       620                       551                       653 
+##                   Estonia                  Ethiopia    Falkland Is.(Malvinas) 
+##                      1088                       129                       502 
+##             Faroe Islands         Fiji, Republic of                   Finland 
+##                      2283                      1798                       706 
+##                    France             French Guiana          French Polynesia 
+##                     10639                       231                       672 
+##      French Southern Terr                     Gabon                    Gambia 
+##                       139                      1089                      1214 
+##                   Georgia                   Germany                     Ghana 
+##                       428                      4813                      2462 
+##                 Gibraltar                    Greece                 Greenland 
+##                        61                      4091                      1311 
+##                   Grenada                Guadeloupe                      Guam 
+##                      1635                       372                       520 
+##                 Guatemala                    Guinea              GuineaBissau 
+##                       622                       697                       634 
+##                    Guyana                     Haiti                  Honduras 
+##                       251                       204                       842 
+##                   Iceland                     India                 Indonesia 
+##                      2346                      5588                      9274 
+##    Iran (Islamic Rep. of)                      Iraq                   Ireland 
+##                      1210                       150                      3235 
+##               Isle of Man                    Israel                     Italy 
+##                       952                      1359                      4567 
+##                   Jamaica                     Japan                    Jordan 
+##                       149                     15429                       226 
+##                     Kenya                  Kiribati  Korea, Dem. People&#39;s Rep 
+##                       958                       875                       210 
+##        Korea, Republic of                    Kuwait                    Latvia 
+##                     10824                       805                      1101 
+##                   Lebanon                   Liberia                     Libya 
+##                       614                      1514                       578 
+##                 Lithuania                Madagascar                  Malaysia 
+##                      1274                      1008                      6963 
+##                  Maldives                     Malta          Marshall Islands 
+##                       487                      2156                       292 
+##                Martinique                Mauritania                 Mauritius 
+##                       672                      1501                       991 
+##                   Mayotte                    Mexico Micronesia, Fed.States of 
+##                       194                      6202                       413 
+##                    Monaco                Montenegro                Montserrat 
+##                        43                       168                        63 
+##                   Morocco                Mozambique                   Myanmar 
+##                      4758                       434                       117 
+##                   Namibia                     Nauru               Netherlands 
+##                       905                       150                      2944 
+##      Netherlands Antilles             New Caledonia               New Zealand 
+##                       338                       789                      4594 
+##                 Nicaragua                   Nigeria                      Niue 
+##                       904                      1479                       145 
+##            Norfolk Island      Northern Mariana Is.                    Norway 
+##                        41                       488                      3747 
+##                      Oman                 Other nei                  Pakistan 
+##                      1086                      1556                      2166 
+##                     Palau   Palestine, Occupied Tr.                    Panama 
+##                       636                       429                      1773 
+##          Papua New Guinea                      Peru               Philippines 
+##                       686                      2767                      4548 
+##          Pitcairn Islands                    Poland                  Portugal 
+##                        63                      2553                     11570 
+##               Puerto Rico                     Qatar                   Romania 
+##                       918                       941                      1738 
+##        Russian Federation                R\xe9union       Saint Barth\xe9lemy 
+##                      4736                       736                         6 
+##              Saint Helena     Saint Kitts and Nevis               Saint Lucia 
+##                       609                       397                       558 
+##  Saint Vincent/Grenadines               SaintMartin                     Samoa 
+##                       715                         6                       386 
+##     Sao Tome and Principe              Saudi Arabia                   Senegal 
+##                      1035                      2200                      2988 
+##     Serbia and Montenegro                Seychelles              Sierra Leone 
+##                       516                      1142                      1526 
+##                 Singapore              Sint Maarten                  Slovenia 
+##                      1937                         4                       644 
+##           Solomon Islands                   Somalia              South Africa 
+##                       505                       141                      3881 
+##                     Spain                 Sri Lanka   St. Pierre and Miquelon 
+##                     17482                      1351                      1038 
+##                     Sudan            Sudan (former)                  Suriname 
+##                         3                        90                       234 
+##    Svalbard and Jan Mayen                    Sweden      Syrian Arab Republic 
+##                        41                      3115                       793 
+##  Taiwan Province of China  Tanzania, United Rep. of                  Thailand 
+##                      9927                      1277                      4843 
+##                TimorLeste                      Togo                   Tokelau 
+##                        98                      1723                       102 
+##                     Tonga       Trinidad and Tobago                   Tunisia 
+##                       403                       923                      3019 
+##                    Turkey      Turks and Caicos Is.                    Tuvalu 
+##                      3326                       193                       162 
+##                   Ukraine        Un. Sov. Soc. Rep.      United Arab Emirates 
+##                      1823                      7084                      1801 
+##            United Kingdom  United States of America                   Uruguay 
+##                      6577                     18080                      2134 
+##         US Virgin Islands                   Vanuatu   Venezuela, Boliv Rep of 
+##                       348                       789                      3409 
+##                  Viet Nam     Wallis and Futuna Is.            Western Sahara 
+##                       405                       128                         0 
+##                     Yemen            Yugoslavia SFR                  Zanzibar 
+##                      1278                      1383                       247</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Refocus the data only to include country, isscaap_taxonomic_group,
+asfis_species_name, asfis_species_number, year, catch.</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  select(country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year, catch)</code></pre>
+<pre><code>## # A tibble: 376,771 × 6
+##    country isscaap_taxonomic_group asfis_species_name asfis_species_number  year
+##    &lt;fct&gt;   &lt;chr&gt;                   &lt;chr&gt;              &lt;fct&gt;                &lt;dbl&gt;
+##  1 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            1995
+##  2 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            1996
+##  3 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            1997
+##  4 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            1998
+##  5 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            1999
+##  6 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            2000
+##  7 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            2001
+##  8 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            2002
+##  9 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            2003
+## 10 Albania Sharks, rays, chimaeras Squatinidae        10903XXXXX            2004
+## # ℹ 376,761 more rows
+## # ℹ 1 more variable: catch &lt;dbl&gt;</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Based on the asfis_species_number, how many distinct fish species
+were caught as part of these data?</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  summarize(distinct_fish_species = n_distinct(asfis_species_number))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   distinct_fish_species
+##                   &lt;int&gt;
+## 1                  1551</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Which country had the largest overall catch in the year 2000?</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  filter(year == 2000) %&gt;%
+  arrange(desc(catch))</code></pre>
+<pre><code>## # A tibble: 8,793 × 10
+##    country               common_name isscaap_group_number isscaap_taxonomic_gr…¹
+##    &lt;fct&gt;                 &lt;chr&gt;       &lt;fct&gt;                &lt;chr&gt;                 
+##  1 China                 Marine fis… 39                   Marine fishes not ide…
+##  2 Peru                  Anchoveta(… 35                   Herrings, sardines, a…
+##  3 Russian Federation    Alaska pol… 32                   Cods, hakes, haddocks 
+##  4 Viet Nam              Marine fis… 39                   Marine fishes not ide…
+##  5 Chile                 Chilean ja… 37                   Miscellaneous pelagic…
+##  6 China                 Marine mol… 58                   Miscellaneous marine …
+##  7 China                 Largehead … 34                   Miscellaneous demersa…
+##  8 United States of Ame… Alaska pol… 32                   Cods, hakes, haddocks 
+##  9 China                 Marine cru… 47                   Miscellaneous marine …
+## 10 Philippines           Scads nei   37                   Miscellaneous pelagic…
+## # ℹ 8,783 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 6 more variables: asfis_species_number &lt;fct&gt;, asfis_species_name &lt;chr&gt;,
+## #   fao_major_fishing_area &lt;fct&gt;, measure &lt;chr&gt;, year &lt;dbl&gt;, catch &lt;dbl&gt;</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Which country caught the most sardines (<em>Sardina pilchardus</em>)
+between the years 1990-2000?</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  filter(between(year, 1990, 2000), asfis_species_name == &quot;Sardina pilchardus&quot;) %&gt;%
+  arrange(desc(catch))</code></pre>
+<pre><code>## # A tibble: 336 × 10
+##    country            common_name    isscaap_group_number isscaap_taxonomic_gr…¹
+##    &lt;fct&gt;              &lt;chr&gt;          &lt;fct&gt;                &lt;chr&gt;                 
+##  1 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  2 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  3 Spain              European pilc… 35                   Herrings, sardines, a…
+##  4 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  5 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  6 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  7 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  8 Morocco            European pilc… 35                   Herrings, sardines, a…
+##  9 Russian Federation European pilc… 35                   Herrings, sardines, a…
+## 10 Russian Federation European pilc… 35                   Herrings, sardines, a…
+## # ℹ 326 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 6 more variables: asfis_species_number &lt;fct&gt;, asfis_species_name &lt;chr&gt;,
+## #   fao_major_fishing_area &lt;fct&gt;, measure &lt;chr&gt;, year &lt;dbl&gt;, catch &lt;dbl&gt;</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Which five countries caught the most cephalopods between
+2008-2012?</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  filter(between(year, 2008, 2012), asfis_species_name == &quot;Cephalopoda&quot;) %&gt;%
+  arrange(desc(catch))</code></pre>
+<pre><code>## # A tibble: 80 × 10
+##    country common_name     isscaap_group_number isscaap_taxonomic_group        
+##    &lt;fct&gt;   &lt;chr&gt;           &lt;fct&gt;                &lt;chr&gt;                          
+##  1 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  2 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  3 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  4 China   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  5 China   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  6 Italy   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  7 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  8 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+##  9 India   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+## 10 Spain   Cephalopods nei 57                   Squids, cuttlefishes, octopuses
+## # ℹ 70 more rows
+## # ℹ 6 more variables: asfis_species_number &lt;fct&gt;, asfis_species_name &lt;chr&gt;,
+## #   fao_major_fishing_area &lt;fct&gt;, measure &lt;chr&gt;, year &lt;dbl&gt;, catch &lt;dbl&gt;</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Which species had the highest catch total between 2008-2012? (hint:
+Osteichthyes is not a species)</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  filter(between(year, 2008, 2012), asfis_species_name != &quot;Osteichthyes&quot;) %&gt;%
+  arrange(desc(catch))</code></pre>
+<pre><code>## # A tibble: 49,554 × 10
+##    country            common_name    isscaap_group_number isscaap_taxonomic_gr…¹
+##    &lt;fct&gt;              &lt;chr&gt;          &lt;fct&gt;                &lt;chr&gt;                 
+##  1 China              Largehead hai… 34                   Miscellaneous demersa…
+##  2 Russian Federation Alaska polloc… 32                   Cods, hakes, haddocks 
+##  3 Peru               Anchoveta(=Pe… 35                   Herrings, sardines, a…
+##  4 Norway             Atlantic herr… 35                   Herrings, sardines, a…
+##  5 Norway             Atlantic herr… 35                   Herrings, sardines, a…
+##  6 Peru               Anchoveta(=Pe… 35                   Herrings, sardines, a…
+##  7 China              Largehead hai… 34                   Miscellaneous demersa…
+##  8 Chile              Anchoveta(=Pe… 35                   Herrings, sardines, a…
+##  9 China              Largehead hai… 34                   Miscellaneous demersa…
+## 10 Russian Federation Alaska polloc… 32                   Cods, hakes, haddocks 
+## # ℹ 49,544 more rows
+## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
+## # ℹ 6 more variables: asfis_species_number &lt;fct&gt;, asfis_species_name &lt;chr&gt;,
+## #   fao_major_fishing_area &lt;fct&gt;, measure &lt;chr&gt;, year &lt;dbl&gt;, catch &lt;dbl&gt;</code></pre>
+<ol start="10" style="list-style-type: decimal">
+<li>Use the data to do at least one analysis of your choice.</li>
+</ol>
+<pre class="r"><code>fisheries_tidy %&gt;%
+  group_by(year) %&gt;%
+  summarise(mean_catch = mean(catch, na.rm = T),
+            min_catch = min(catch, na.rm = T),
+            max_catch = max(catch, na.rm = T))</code></pre>
+<pre><code>## # A tibble: 63 × 4
+##     year mean_catch min_catch max_catch
+##    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1  1950       18.6         0       935
+##  2  1951       21.1         0      5600
+##  3  1952       25.4         0      3800
+##  4  1953       20.0         0       900
+##  5  1954       24.5         0      1500
+##  6  1955       25.4         0      4000
+##  7  1956       24.7         0      4500
+##  8  1957       20.1         0       998
+##  9  1958       21.9         0       994
+## 10  1959       24.6         0      6800
+## # ℹ 53 more rows</code></pre>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
