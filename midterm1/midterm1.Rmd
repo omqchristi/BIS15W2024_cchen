@@ -1,0 +1,166 @@
+---
+title: "Midterm 1 W24"
+author: "Christina Chen"
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    keep_md: yes
+  pdf_document: default
+---
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your code must be organized, clean, and run free from errors. Remember, you must remove the `#` for any included code chunks to run. Be sure to add your name to the author header above. 
+
+Your code must knit in order to be considered. If you are stuck and cannot answer a question, then comment out your code and knit the document. You may use your notes, labs, and homework to help you complete this exam. Do not use any other resources- including AI assistance.  
+
+Don't forget to answer any questions that are asked in the prompt!  
+
+Be sure to push your completed midterm to your repository. This exam is worth 30 points.  
+
+## Background
+In the data folder, you will find data related to a study on wolf mortality collected by the National Park Service. You should start by reading the `README_NPSwolfdata.pdf` file. This will provide an abstract of the study and an explanation of variables.  
+
+The data are from: Cassidy, Kira et al. (2022). Gray wolf packs and human-caused wolf mortality. [Dryad](https://doi.org/10.5061/dryad.mkkwh713f). 
+
+## Load the libraries
+```{r message=FALSE, warning=FALSE}
+library("tidyverse")
+library("janitor")
+```
+
+## Load the wolves data
+In these data, the authors used `NULL` to represent missing values. I am correcting this for you below and using `janitor` to clean the column names.
+```{r message=FALSE, warning=FALSE}
+wolves <- read.csv("data/NPS_wolfmortalitydata.csv", na = c("NULL")) %>% clean_names()
+```
+
+## Questions
+Problem 1. (1 point) Let's start with some data exploration. What are the variable (column) names?  
+
+```{r}
+names(wolves)
+```
+
+Problem 2. (1 point) Use the function of your choice to summarize the data and get an idea of its structure.  
+
+```{r}
+glimpse(wolves)
+```
+
+Problem 3. (3 points) Which parks/ reserves are represented in the data? Don't just use the abstract, pull this information from the data.  
+
+```{r}
+wolves$park <- as.factor(wolves$park)
+levels(wolves$park)
+```
+
+These are the abrievieated names.
+
+Problem 4. (4 points) Which park has the largest number of wolf packs?
+
+```{r}
+wolves %>%
+  group_by(park) %>%
+  summarize(distinct_packs = n_distinct(pack))
+```
+
+It looks like DENA has the largest number of (distinct) packs.
+
+Problem 5. (4 points) Which park has the highest total number of human-caused mortalities `mort_all`?
+
+```{r}
+wolves %>%
+  group_by(park) %>%
+  summarise(mean_mort_all = mean(mort_all),
+            max_mort_all = max(mort_all),
+            min_mort_all = min(mort_all))
+```
+
+```{r}
+wolves %>%
+  select(park, mort_all) %>%
+  arrange(desc(mort_all)) %>%
+  head()
+```
+
+The park YUCH has the largest mean mortality across all years, and the largest mortality for a single year. With this, we can infer that it has the largest total mortality as well. But if you don't want to infer, you can also do the longform way:
+
+```{r}
+dena <- wolves %>%
+  filter(park == 'DENA')
+gntp <- wolves %>%
+  filter(park == 'GNTP')
+vnp <- wolves %>%
+  filter(park == 'VNP')
+ynp <- wolves %>%
+  filter(park == 'YNP')
+yuch <- wolves %>%
+  filter(park == 'YUCH')
+```
+
+```{r}
+sum(dena$mort_all)
+sum(gntp$mort_all)
+sum(vnp$mort_all)
+sum(ynp$mort_all)
+sum(yuch$mort_all)
+```
+
+This also shows that the YUCH park has the highest total mortality.
+
+The wolves in [Yellowstone National Park](https://www.nps.gov/yell/learn/nature/wolf-restoration.htm) are an incredible conservation success story. Let's focus our attention on this park.  
+
+Problem 6. (2 points) Create a new object "ynp" that only includes the data from Yellowstone National Park. 
+
+```{r}
+ynp <- wolves %>%
+  filter(park == 'YNP')
+# I have already created this object, but I am placing the code here for reference.
+head(ynp)
+```
+
+Problem 7. (3 points) Among the Yellowstone wolf packs, the [Druid Peak Pack](https://www.pbs.org/wnet/nature/in-the-valley-of-the-wolves-the-druid-wolf-pack-story/209/) is one of most famous. What was the average pack size of this pack for the years represented in the data?
+
+```{r}
+ynp %>%
+  filter(pack == 'druid') %>%
+  summarise(mean_packsize_aug = mean(packsize_aug, na.rm = TRUE))
+```
+
+Problem 8. (4 points) Pack dynamics can be hard to predict- even for strong packs like the Druid Peak pack. At which year did the Druid Peak pack have the largest pack size? What do you think happened in 2010?
+
+```{r}
+ynp %>%
+  filter(pack == 'druid') %>%
+  arrange(desc(packsize_aug))
+```
+
+The pack was largest in 2001, but in 2010, it looks like the pack died out. The pack size was 0.
+
+Problem 9. (5 points) Among the YNP wolf packs, which one has had the highest overall persistence `persisty1` for the years represented in the data? Look this pack up online and tell me what is unique about its behavior- specifically, what prey animals does this pack specialize on?  
+
+```{r}
+ynp %>%
+  group_by(pack) %>%
+  filter(persisty1 == 1) %>%
+  count() %>%
+  arrange(desc(n))
+```
+
+It looks like the mollies have the highest overall persistence, with more 1s than any other pack. This may be caused by their unique habit of group hunting bison when elk migrated out of the area. This pack also seems to have more female alphas and longer lifespans.
+
+[First Source Link](https://www.yellowstonewolf.org/yellowstones_wolves.php?pack_id=6)
+
+[Second Source Link](https://greateryellowstone.org/blog/2020/studyingwolves)
+
+Problem 10. (3 points) Perform one analysis or exploration of your choice on the `wolves` data. Your answer needs to include at least two lines of code and not be a summary function.  
+
+Here is the two parks with the largest number of packs, with data only from between 2000 and 2010. The data has been sorted in descending order by pack size, and reduced to the top 6 results.
+
+```{r}
+wolves %>%
+  filter(park == "DENA" | park == "GNTP") %>%
+  filter(between(biolyr, 2000, 2010)) %>%
+  arrange(desc(packsize_aug)) %>%
+  head()
+```
