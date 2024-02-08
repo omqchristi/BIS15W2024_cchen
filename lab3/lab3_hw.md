@@ -1,7 +1,7 @@
 ---
 title: "Lab 3 Homework"
 author: "Christina Chen"
-date: "2024-01-19"
+date: "2024-02-08"
 output:
   html_document: 
     theme: spacelab
@@ -23,7 +23,7 @@ library(tidyverse)
 1. For this assignment, we are going to use built-in data on mammal sleep patterns. From which publication are these data taken from? Since the data are built-in you can use the help function in R. The name of the data is `msleep`.  
 
 ```r
-?msleep # data was taken from V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.
+?msleep # This data was taken from V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.
 ```
 
 2. Store these data into a new data frame `sleep`.  

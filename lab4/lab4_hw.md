@@ -1,7 +1,7 @@
 ---
 title: "Lab 4 Homework"
 author: "Christina Chen"
-date: "2024-01-27"
+date: "2024-02-08"
 output:
   html_document: 
     theme: spacelab
@@ -30,6 +30,7 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 
 **1. Load the data into a new object called `homerange`.**
 
+
 ```r
 homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
@@ -46,6 +47,7 @@ homerange <- read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.**  
+
 
 ```r
 homerange # class is in grey, under column names
@@ -202,6 +204,7 @@ summary(homerange)
 
 **3. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 
+
 ```r
 homerange$taxon <- as.factor(homerange$taxon)
 levels(homerange$taxon)
@@ -240,6 +243,7 @@ levels(homerange$order)
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 
+
 ```r
 taxa <- select(homerange, taxon, common.name, class, order, family, genus, species)
 taxa
@@ -264,6 +268,7 @@ taxa
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
 
+
 ```r
 table(homerange$taxon)
 ```
@@ -278,6 +283,7 @@ table(homerange$taxon)
 
 **6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild.**  
 
+
 ```r
 table(homerange$trophic.guild)
 ```
@@ -289,6 +295,7 @@ table(homerange$trophic.guild)
 ```
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
+
 
 ```r
 herbivores <- filter(homerange, trophic.guild == "herbivore")
@@ -347,6 +354,7 @@ carnivores
 
 **8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.**  
 
+
 ```r
 mean(herbivores$mean.hra.m2, na.rm=T)
 ```
@@ -366,55 +374,33 @@ mean(carnivores$mean.hra.m2, na.rm=T)
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 
+
 ```r
-owls <- filter(homerange, order == "strigiformes")
+owls <- filter(homerange, order == "strigiformes") %>%
+  select(mean.mass.g, log10.mass, family, genus, species) %>%
+  arrange(mean.mass.g)
 owls
-```
-
-```
-## # A tibble: 9 × 24
-##   taxon common.name        class order  family genus species primarymethod N    
-##   <fct> <chr>              <chr> <fct>  <chr>  <chr> <chr>   <chr>         <chr>
-## 1 birds boreal owl         aves  strig… strig… aego… funere… telemetry*    <NA> 
-## 2 birds long-eared owl     aves  strig… strig… asio  otus    telemetry*    <NA> 
-## 3 birds little owl         aves  strig… strig… athe… noctua  telemetry*    <NA> 
-## 4 birds Eurasian eagle-owl aves  strig… strig… bubo  bubo    telemetry*    <NA> 
-## 5 birds great horned owl   aves  strig… strig… bubo  virgin… direct obser… <NA> 
-## 6 birds Eurasian pygmy owl aves  strig… strig… glau… passer… telemetry*    <NA> 
-## 7 birds snowy owl          aves  strig… strig… nyct… scandi… direct obser… <NA> 
-## 8 birds tawny owl          aves  strig… strig… strix aluco   direct obser… 55   
-## 9 birds barn owl           aves  strig… tyton… tyto  alba    telemetry*    <NA> 
-## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
-## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
-## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,
-## #   trophic.guild <chr>, dimension <dbl>, preymass <dbl>, log10.preymass <dbl>,
-## #   PPMR <dbl>, prey.size.reference <chr>
-```
-
-
-```r
-new_owls <- select(owls, mean.mass.g, log10.mass, family, genus, species)
-new_owls
 ```
 
 ```
 ## # A tibble: 9 × 5
 ##   mean.mass.g log10.mass family    genus      species    
 ##         <dbl>      <dbl> <chr>     <chr>      <chr>      
-## 1       119         2.08 strigidae aegolius   funereus   
-## 2       252         2.40 strigidae asio       otus       
+## 1        61.3       1.79 strigidae glaucidium passerinum 
+## 2       119         2.08 strigidae aegolius   funereus   
 ## 3       156.        2.19 strigidae athene     noctua     
-## 4      2191         3.34 strigidae bubo       bubo       
-## 5      1510         3.18 strigidae bubo       virginianus
-## 6        61.3       1.79 strigidae glaucidium passerinum 
-## 7      1920         3.28 strigidae nyctea     scandiaca  
-## 8       519         2.72 strigidae strix      aluco      
-## 9       285         2.45 tytonidae tyto       alba
+## 4       252         2.40 strigidae asio       otus       
+## 5       285         2.45 tytonidae tyto       alba       
+## 6       519         2.72 strigidae strix      aluco      
+## 7      1510         3.18 strigidae bubo       virginianus
+## 8      1920         3.28 strigidae nyctea     scandiaca  
+## 9      2191         3.34 strigidae bubo       bubo
 ```
 
 
 ```r
-filter(owls, mean.mass.g <= 62)
+homerange %>%
+  filter(mean.mass.g == 61.32)
 ```
 
 ```
@@ -429,31 +415,16 @@ filter(owls, mean.mass.g <= 62)
 ## #   PPMR <dbl>, prey.size.reference <chr>
 ```
 
-
-```r
-filter(homerange, mean.mass.g <= 0.3)
-```
-
-```
-## # A tibble: 1 × 24
-##   taxon         common.name class order family genus species primarymethod N    
-##   <fct>         <chr>       <chr> <fct> <chr>  <chr> <chr>   <chr>         <chr>
-## 1 marine fishes rusty goby  acti… perc… gobii… prio… hipoli… direct obser… <NA> 
-## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
-## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
-## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,
-## #   trophic.guild <chr>, dimension <dbl>, preymass <dbl>, log10.preymass <dbl>,
-## #   PPMR <dbl>, prey.size.reference <chr>
-```
-
 The Eurasian pygmy owl are the smallest owls in Europe. They have brown or grey coloration with spotted sides.
 
 Source: [Wikipedia](https://en.wikipedia.org/wiki/Eurasian_pygmy_owl)
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 
+
 ```r
-birds <- filter(homerange, taxon == "birds")
+birds <- filter(homerange, taxon == "birds") %>%
+  arrange(desc(mean.hra.m2))
 birds
 ```
 
@@ -461,34 +432,17 @@ birds
 ## # A tibble: 140 × 24
 ##    taxon common.name        class order family genus species primarymethod N    
 ##    <fct> <chr>              <chr> <fct> <chr>  <chr> <chr>   <chr>         <chr>
-##  1 birds golden eagle       aves  acci… accip… aqui… chrysa… telemetry*    <NA> 
-##  2 birds common buzzard     aves  acci… accip… buteo buteo   telemetry*    <NA> 
-##  3 birds short-toed snake … aves  acci… accip… circ… gallic… telemetry*    <NA> 
-##  4 birds Bonelli's eagle    aves  acci… accip… hier… fascia… telemetry*    <NA> 
-##  5 birds booted eagle       aves  acci… accip… hier… pennat… telemetry     4    
-##  6 birds Egyptian vulture   aves  acci… accip… neop… percno… telemetry*    <NA> 
-##  7 birds gadwall            aves  anse… anati… anas  strepe… telemetry     3    
-##  8 birds northern brown ki… aves  apte… apter… apte… austra… telemetry     6    
-##  9 birds European nightjar  aves  capr… capri… capr… europa… telemetry*    <NA> 
-## 10 birds oystercatcher      aves  char… haema… haem… ostral… telemetry     8    
+##  1 birds caracara           aves  falc… falco… cara… cheriw… telemetry     26   
+##  2 birds Montagu's harrier  aves  falc… accip… circ… pygarg… telemetry*    <NA> 
+##  3 birds peregrine falcon   aves  falc… falco… falco peregr… telemetry*    <NA> 
+##  4 birds booted eagle       aves  acci… accip… hier… pennat… telemetry     4    
+##  5 birds ostrich            aves  stru… strut… stru… camelus telemetry     1    
+##  6 birds short-toed snake … aves  acci… accip… circ… gallic… telemetry*    <NA> 
+##  7 birds European turtle d… aves  colu… colum… stre… turtur  telemetry*    <NA> 
+##  8 birds Egyptian vulture   aves  acci… accip… neop… percno… telemetry*    <NA> 
+##  9 birds common buzzard     aves  acci… accip… buteo buteo   telemetry*    <NA> 
+## 10 birds lanner falcon      aves  falc… falco… falco biarmi… telemetry*    <NA> 
 ## # ℹ 130 more rows
-## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
-## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
-## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,
-## #   trophic.guild <chr>, dimension <dbl>, preymass <dbl>, log10.preymass <dbl>,
-## #   PPMR <dbl>, prey.size.reference <chr>
-```
-
-
-```r
-filter(birds, mean.hra.m2 >= 240000000)
-```
-
-```
-## # A tibble: 1 × 24
-##   taxon common.name class order         family genus species primarymethod N    
-##   <fct> <chr>       <chr> <fct>         <chr>  <chr> <chr>   <chr>         <chr>
-## 1 birds caracara    aves  falconiformes falco… cara… cheriw… telemetry     26   
 ## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
 ## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
 ## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,

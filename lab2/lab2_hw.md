@@ -1,7 +1,7 @@
 ---
 title: "Lab 2 Homework"
 author: "Christina Chen"
-date: "2024-01-16"
+date: "2024-02-08"
 output:
   html_document: 
     theme: spacelab
@@ -22,6 +22,7 @@ Vectors are a string of values that can be numbers, integers, or words (characte
 In R, they are essentially vectors stacked on top of each other, forming a grid of values. This means there are not columns and rows of values.
 
 3. Below are data collected by three scientists (Jill, Steve, Susan in order) measuring temperatures of eight hot springs. Run this code chunk to create the vectors.  
+
 
 ```r
 spring_1 <- c(36.25, 35.40, 35.30)
@@ -139,9 +140,10 @@ mean(all_spring_matrix[,1])
 
 10. Use the data matrix to perform one calculation or operation of your interest.
 
+I've added the mean temperatre of all the springs to the matrix.
+
 
 ```r
-#mean temperature for all of the springs, added to the matrix
 all_mean <- mean(all_spring_matrix[,3])
 all_mean_organized <- c(NA, NA, NA, all_mean)
 rbind(all_spring_matrix, all_mean_organized)

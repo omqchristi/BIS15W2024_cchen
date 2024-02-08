@@ -26,6 +26,7 @@ When you first open RStudio, you should see your screen divided into four quadra
 Before you begin to work in RStudio, it is important that you are in the correct "working directory". This is the location on your computer where you are currently working; it is the place where RStudio will save all of your work. At first, many of the problems people encounter in R are because they are not in the correct working directory.  
 
 Run the following code by clicking the small green arrow to check your current working directory.  
+
 ```{r}
 getwd()
 ```
@@ -33,6 +34,7 @@ getwd()
 If you are not in the **lab 1 folder**, please navigate to it: Session>Set Working Directory>Choose Directory>Desktop>lab1.  
 
 Re-run the code below to confirm.
+
 ```{r}
 getwd()
 ```
@@ -42,11 +44,13 @@ Double click to open R (not RStudio) and find the carrot `>`. This is where comm
 
 ## Arithmetic  
 You can use R as a calculator; just enter the expression and press return.  Experiment by evaluating the following expression.
+
 ```{r}
 4*12
 ```
 
 Order of operations applies and you don't need to add an '=' sign.
+
 ```{r}
 (4*12)/2
 ```
@@ -60,6 +64,7 @@ Order of operations applies and you don't need to add an '=' sign.
 ```
 
 What is going on here? How do we adjust this expression so the output is 12?
+
 ```{r}
 (4-2)*6 #added parentheses
 ```
@@ -68,16 +73,19 @@ What is going on here? How do we adjust this expression so the output is 12?
 Statistics are what R was originally written for and there are thousands of packages for specialized statistics depending on your needs.  
 
 First, we need to make a vector or string of values which we will store as an object x. More on this later...
+
 ```{r}
 x <- c(4, 6, 8, 5, 6, 7, 7, 7)
 ```
 
 Now we can calculate the mean of object x.  
+
 ```{r}
 mean(x)
 ```
 
 We can do the same thing for median.  
+
 ```{r}
 median(x)
 ```

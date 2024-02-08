@@ -68,10 +68,6 @@ hbirds <- data.frame(sex=Sex, length=Length, weight_g=Weight)
 hbirds
 ```
 
-```{r}
-
-```
-
 ## Accessing Data Frame Columns and Rows 
 The same methods of selecting elements in vectors and data matrices apply to data frames. We use `[]`. We have two positions where the first applies to the rows, and the second to the columns.  
 
@@ -148,7 +144,7 @@ springs
 4. Calculate the mean temperature of all of the temperature measurements.
 
 ```{r}
-temp <- springs[,1] # you already have this information, when you made the data frame
+temp <- springs[,1] # you already have this information, when you made the data frame, so this line was unnecessary. only do this if you didn't make the matrix
 mean(temp)
 ```
 
