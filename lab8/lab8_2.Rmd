@@ -36,7 +36,7 @@ For the following, we will use life history data for mammals. The [data](http://
 
 ## Load the mammals life history data and clean the names  
 ```{r}
-life_history <- read_csv("data/mammal_lifehistories_v3.csv") %>% clean_names()
+life_history <- read_csv("../data/mammal_lifehistories_v3.csv") %>% clean_names()
 ```
 
 ## Are there any NA's?
@@ -123,7 +123,7 @@ Some key information:
 
 1. Import the data and do a little exploration. Be sure to clean the names if necessary.
 ```{r}
-cites <- read_csv("data/cites.csv") %>% clean_names()
+cites <- read_csv("../data/cites.csv") %>% clean_names()
 ```
 
 ```{r}
@@ -162,7 +162,7 @@ vis_miss(life_history)
 If you are sure that you know how NA's are treated in the data, then you can deal with them in advance using `na()` as part of the `readr` package.
 ```{r}
 life_history_advance <- 
-  readr::read_csv(file = "data/mammal_lifehistories_v3.csv", 
+  readr::read_csv(file = "../data/mammal_lifehistories_v3.csv", 
                   na = c("NA", " ", ".", "-999")) #all NA, blank spaces, .,and -999 are treated as NA
 ```
 
