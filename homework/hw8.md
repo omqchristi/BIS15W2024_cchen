@@ -122,12 +122,12 @@ sydneybeaches_wide %>%
 
 ```r
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/")
+  separate(date, into=c("day", "month", "year"), sep="/")
 ```
 
 ```
 ## # A tibble: 3,690 × 5
-##    site           month day   year  enterococci_cfu_100ml
+##    site           day   month year  enterococci_cfu_100ml
 ##    <chr>          <chr> <chr> <chr>                 <dbl>
 ##  1 Clovelly Beach 02    01    2013                     19
 ##  2 Clovelly Beach 06    01    2013                      3
@@ -147,7 +147,7 @@ sydneybeaches_long %>%
 
 ```r
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
   summarise(mean_cfu = mean(enterococci_cfu_100ml))
 ```
@@ -180,7 +180,7 @@ sydneybeaches_long %>%
 
 ```r
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
   summarise(mean_cfu = mean(enterococci_cfu_100ml)) %>%
   pivot_wider(
@@ -216,7 +216,7 @@ sydneybeaches_long %>%
 
 ```r
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   filter(year == 2013) %>%
   arrange(desc(enterococci_cfu_100ml)) %>%
   head(1)
@@ -224,7 +224,7 @@ sydneybeaches_long %>%
 
 ```
 ## # A tibble: 1 × 5
-##   site             month day   year  enterococci_cfu_100ml
+##   site             day   month year  enterococci_cfu_100ml
 ##   <chr>            <chr> <chr> <chr>                 <dbl>
 ## 1 Little Bay Beach 30    06    2013                   4900
 ```

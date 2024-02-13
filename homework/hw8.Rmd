@@ -83,14 +83,14 @@ sydneybeaches_wide %>%
 
 ```{r}
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/")
+  separate(date, into=c("day", "month", "year"), sep="/")
 ```
 
 7. What is the average `enterococci_cfu_100ml` by year for each beach. Think about which data you will use- long or wide.
 
 ```{r}
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
   summarise(mean_cfu = mean(enterococci_cfu_100ml))
 ```
@@ -99,7 +99,7 @@ sydneybeaches_long %>%
 
 ```{r}
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
   summarise(mean_cfu = mean(enterococci_cfu_100ml)) %>%
   pivot_wider(
@@ -112,7 +112,7 @@ sydneybeaches_long %>%
 
 ```{r}
 sydneybeaches_long %>%
-  separate(date, into=c("month", "day", "year"), sep="/") %>%
+  separate(date, into=c("day", "month", "year"), sep="/") %>%
   filter(year == 2013) %>%
   arrange(desc(enterococci_cfu_100ml)) %>%
   head(1)
