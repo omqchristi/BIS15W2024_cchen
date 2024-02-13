@@ -149,7 +149,7 @@ sydneybeaches_long %>%
 sydneybeaches_long %>%
   separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
-  summarise(mean_cfu = mean(enterococci_cfu_100ml))
+  summarise(mean_cfu = mean(enterococci_cfu_100ml, na.r = T))
 ```
 
 ```
@@ -182,7 +182,7 @@ sydneybeaches_long %>%
 sydneybeaches_long %>%
   separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
-  summarise(mean_cfu = mean(enterococci_cfu_100ml)) %>%
+  summarise(mean_cfu = mean(enterococci_cfu_100ml, na.rm = T)) %>%
   pivot_wider(
     names_from = site,
     values_from = mean_cfu
@@ -201,10 +201,10 @@ sydneybeaches_long %>%
 ##   <chr>         <dbl>          <dbl>            <dbl>          <dbl>
 ## 1 2013           32.2           26.8             9.28           39.7
 ## 2 2014           11.1           17.5            13.8            52.6
-## 3 2015           14.3           NA               8.82           40.3
-## 4 2016           19.4           61.3            11.3            NA  
+## 3 2015           14.3           23.6             8.82           40.3
+## 4 2016           19.4           61.3            11.3            59.5
 ## 5 2017           13.2           16.8             7.93           20.7
-## 6 2018           NA             NA              NA              NA  
+## 6 2018           22.9           43.4            10.6            21.6
 ## # ℹ 7 more variables: `Gordons Bay (East)` <dbl>, `Little Bay Beach` <dbl>,
 ## #   `Malabar Beach` <dbl>, `Maroubra Beach` <dbl>,
 ## #   `South Maroubra Beach` <dbl>, `South Maroubra Rockpool` <dbl>,

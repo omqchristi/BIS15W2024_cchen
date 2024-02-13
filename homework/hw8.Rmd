@@ -92,7 +92,7 @@ sydneybeaches_long %>%
 sydneybeaches_long %>%
   separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
-  summarise(mean_cfu = mean(enterococci_cfu_100ml))
+  summarise(mean_cfu = mean(enterococci_cfu_100ml, na.r = T))
 ```
 
 8. Make the output from question 7 easier to read by pivoting it to wide format.
@@ -101,7 +101,7 @@ sydneybeaches_long %>%
 sydneybeaches_long %>%
   separate(date, into=c("day", "month", "year"), sep="/") %>%
   group_by(year, site) %>%
-  summarise(mean_cfu = mean(enterococci_cfu_100ml)) %>%
+  summarise(mean_cfu = mean(enterococci_cfu_100ml, na.rm = T)) %>%
   pivot_wider(
     names_from = site,
     values_from = mean_cfu
