@@ -1,0 +1,21 @@
+---
+title: "Group Project Notes"
+author: "Christina Chen"
+date: "2024-02-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About the dataset
+
+- find a dataset out in the wild, to clean up and prep for data analysis
+- must be approved by Prof or TA
+
+## About the Presentation
+
+- 6-8 minutes long
+- in class
+- sweet treats after :)
