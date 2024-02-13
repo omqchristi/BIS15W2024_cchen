@@ -1,7 +1,7 @@
 ---
 title: "Homework 7"
 author: "Christina Chen"
-date: "2024-02-10"
+date: "2024-02-13"
 output:
   html_document: 
     theme: spacelab
@@ -244,6 +244,10 @@ amphibio %>%
 clean_amniota <- amniota %>%
   replace_with_na_all(condition = ~.x == -999)
 ```
+
+Oddities found in amniota:
+1. no subspecies recorded at all (100% missing)
+2. 4 observations of female_maturity_d are "-30258.71100"
 
 **6. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amniota` data.**  
 
