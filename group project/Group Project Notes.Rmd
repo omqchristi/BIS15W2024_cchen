@@ -19,3 +19,13 @@ knitr::opts_chunk$set(echo = TRUE)
 - 6-8 minutes long
 - in class
 - sweet treats after :)
+
+## Where to Get Data Sets From
+
+[Maven Analytics](https://mavenanalytics.io/data-playground?page=1&pageSize=5)
+[re3data](re3data.org)
+[Environmental Information Data Centre](https://catalogue.ceh.ac.uk/eidc/documents)
+
+## Possible Data Sets
+
+[Seedlings growth in a fertilized forest in Central Amazonia (2019 – 2020)](https://catalogue.ceh.ac.uk/documents/2da56eb1-ff01-48de-ba2a-d3afceefc85f)

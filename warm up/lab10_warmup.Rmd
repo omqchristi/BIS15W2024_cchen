@@ -1,0 +1,43 @@
+---
+title: "Lab 10 Warm Up"
+author: "Christina Chen"
+date: "2024-02-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read Data
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+malaria <- read_csv("data/malaria.csv") %>% clean_names()
+```
+
+## Tidy Data
+
+```{r}
+malaria %>%
+  pivot_longer(contains("rdt"),
+               names_to = "age_range",
+               names_prefix = "malaria_rdt_",
+               values_to = "cases") %>%
+  select(-submitted_date, -newid)
+```
+
+## Highest Total Cases by District
+
+```{r}
+malaria %>%
+  group_by(district) %>%
+  filter(data_date == "2020-07-30") %>%
+  summarise(total_cases = sum(malaria_tot, na.rm = T)) %>%
+  arrange(desc(total_cases))
+```
+
