@@ -29,3 +29,32 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Possible Data Sets
 
 [Seedlings growth in a fertilized forest in Central Amazonia (2019 – 2020)](https://catalogue.ceh.ac.uk/documents/2da56eb1-ff01-48de-ba2a-d3afceefc85f)
+
+## Practicing with Data Sets
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+lego <- read_csv("lego/lego_sets.csv")
+hpdialogue <- read_csv("harrypotter/Dialogue.csv")
+hpcharacters <- read_csv("harrypotter/Characters.csv")
+```
+
+```{r}
+glimpse(lego)
+```
+
+```{r}
+lego %>%
+  group_by(year) %>%
+  count() %>%
+  rename(total_released = n) %>%
+  ggplot(aes(x = year, y = total_released)) +
+  geom_col()
+```
+
+```{r}
+```
+
