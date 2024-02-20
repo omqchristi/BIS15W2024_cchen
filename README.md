@@ -2,6 +2,8 @@
 
 Hello! This is my repository for BIS 15L Homework.
 
+All homework can be found be in the homework folder.
+
 ## Class Information:
 - BIS15L
 - Winter 2024
