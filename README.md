@@ -2,7 +2,7 @@
 
 Hello! This is my repository for BIS 15L Homework.
 
-All homework can be found be in the homework folder.
+All homework can be found be in the [homework](https://github.com/omqchristi/BIS15W2024_cchen/tree/main/homework) folder.
 
 ## Class Information:
 - BIS15L
