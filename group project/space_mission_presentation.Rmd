@@ -1,0 +1,25 @@
+---
+title: "Space Mission Presentation"
+author: "Christina Chen"
+date: "`r Sys.Date()`"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("jpeg")
+library(tidyverse)
+```
+
+## What Data, and Where is it from?
+
+Sourced from [Maven Analytics](https://mavenanalytics.io/data-playground?page=5&pageSize=5)
+
+```{r include=FALSE}
+spacemission <- read_csv("spacemission/space_missions.csv")
+```
+
+```{r}
+glimpse(spacemission)
+```
+
