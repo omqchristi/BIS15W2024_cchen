@@ -1,14 +1,14 @@
 ---
 title: "Space Mission Presentation"
-author: "Christina Chen"
 date: "`r Sys.Date()`"
 output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library("jpeg")
 library(tidyverse)
+library(janitor)
 ```
 
 ## What Data, and Where is it from?
@@ -16,10 +16,16 @@ library(tidyverse)
 Sourced from [Maven Analytics](https://mavenanalytics.io/data-playground?page=5&pageSize=5)
 
 ```{r include=FALSE}
-spacemission <- read_csv("spacemission/space_missions.csv")
+spacemission <- read_csv("spacemission/space_missions.csv") %>% clean_names()
 ```
 
 ```{r}
 glimpse(spacemission)
+```
+
+```{r eval=FALSE, include=FALSE}
+spacemission %>%
+  separate(location, into = c("site", "county","state", "country"), sep = ",") %>%
+  unite(area, "country", "state", sep = ",")
 ```
 
