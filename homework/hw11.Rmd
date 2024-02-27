@@ -91,7 +91,7 @@ gapminder %>%
 
 ```{r}
 gapminder %>%
-  group_by(country, year) %>%
+  group_by(continent, year) %>%
   summarise(min = min(life_exp),
             mean = mean(life_exp),
             max = max(life_exp))
