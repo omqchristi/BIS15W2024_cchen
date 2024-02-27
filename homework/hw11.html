@@ -556,7 +556,11 @@ since 1952?</strong></p>
 <p><strong>8. Use your results from the question above to plot
 population growth for the top five countries since 1952.</strong></p>
 <pre class="r"><code>gapminder %&gt;%
-  filter(country == &quot;China&quot; | country == &quot;India&quot; | country == &quot;United States&quot; | country == &quot;Indonesia&quot; | country == &quot;Brazil&quot;) %&gt;%
+  filter(country == &quot;China&quot; | 
+           country == &quot;India&quot; | 
+           country == &quot;United States&quot; | 
+           country == &quot;Indonesia&quot; | 
+           country == &quot;Brazil&quot;) %&gt;%
   ggplot(aes(x = year, y = pop)) +
   geom_line(aes(color = country)) +
   labs(title = &quot;Population Growth&quot;,
