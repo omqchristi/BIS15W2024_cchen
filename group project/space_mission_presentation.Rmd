@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library("jpeg")
 library(tidyverse)
 library(janitor)
+library(naniar)
 ```
 
 ## What Data, and Where is it from?
@@ -22,10 +23,21 @@ spacemission <- read_csv("spacemission/space_missions.csv") %>% clean_names()
 ```{r}
 glimpse(spacemission)
 ```
+```{r}
+miss_var_summary(spacemission)
+```
 
-```{r eval=FALSE, include=FALSE}
+
+```{r}
+spacemission <- spacemission %>%
+  separate(date, into = c("year", "month", "date"), sep = "-")
+```
+
+```{r}
 spacemission %>%
-  separate(location, into = c("site", "county","state", "country"), sep = ",") %>%
-  unite(area, "country", "state", sep = ",")
+  group_by(year) %>%
+  ggplot(aes(x = year)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
