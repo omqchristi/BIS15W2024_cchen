@@ -168,17 +168,26 @@ global_sharks %>%
 8. (3 points) Make a new object that limits the data to only include attacks attributed to Great White Sharks. This is trickier than it sounds, you should end up with 494 observations. Look online and adapt code involving `str_detect`. Which country has the highest number of Great White Shark attacks?
 
 ```{r}
-#great_whites <- 
-global_sharks %>%
+great_whites <- global_sharks %>%
   mutate(white_shark = str_detect(species, "white shark")) %>%
   mutate(white_shark2 = str_detect(species, "White shark")) %>%
-  mutate(white_shark3 = str_detect(species, "great")) %>%
-  mutate(white_shark4 = str_detect(investigator_or_source, "Great White")) %>%
-  filter(white_shark == TRUE | white_shark2 == TRUE | white_shark3 == TRUE | white_shark4 == TRUE)
+  mutate(white_shark3 = str_detect(investigator_or_source, "Great White")) %>%
+  filter(white_shark == TRUE | white_shark2 == TRUE | white_shark3 == TRUE)
+great_whites %>%
+  group_by(country) %>%
+  summarise(total_incidents = n()) %>%
+  arrange(desc(total_incidents))
 ```
 
 9. (4 points) Use faceting to compare the number of fatal and non-fatal attacks for the top 5 countries with the highest number of Great White Shark attacks.
 
+```{r}
+great_whites %>%
+  filter(country == "USA" | country == "AUSTRALIA" | country == "SOUTH AFRICA" | country == "ITALY" | country == "NEW ZEALAND") %>%
+  group_by(country, fatal_y_n) %>%
+  summarise(total = n()) %>%
+  pivot_wider(names_from = fatal_y_n, values_from = total)
+```
 
 10. (3 points) Using the `global_sharks` data, what is one question that you are interested in exploring? Write the question and answer it using a plot or table. 
 
