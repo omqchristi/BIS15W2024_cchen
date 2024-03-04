@@ -181,3 +181,23 @@ global_sharks %>%
 
 
 10. (3 points) Using the `global_sharks` data, what is one question that you are interested in exploring? Write the question and answer it using a plot or table. 
+
+How has types of incident rates changed over the years from 1900 - Current Day?
+
+```{r}
+global_sharks$year <- as.numeric(global_sharks$year)
+```
+
+```{r}
+global_sharks %>%
+  filter(year != is.na(year)) %>%
+  filter(year >= 1900) %>%
+  ggplot(aes(x = year, fill = type)) +
+  geom_bar() +
+  coord_flip() +
+  labs(title = "Shark Incidents Over Time by Type",
+       y = "Number of Incidents",
+       x = "Year") +
+  theme_classic()
+```
+
