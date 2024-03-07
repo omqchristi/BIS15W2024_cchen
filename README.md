@@ -12,4 +12,4 @@ All homework can be found be in the [homework](https://github.com/omqchristi/BIS
 
 ## Contact Information:
 
-Email: [Christina Chen](omqchen@ucdavis.edu)
+Email: [Christina Chen](mailto:omqchen@ucdavis.edu)
