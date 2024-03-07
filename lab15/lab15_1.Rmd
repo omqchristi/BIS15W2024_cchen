@@ -48,8 +48,7 @@ library(shinydashboard)
 ## Load the Data: 
 ```{r}
 #load the Netflix Data in your Data folder, save it under the object name netflix
-
-
+netflix <- read_csv("../data/netflix_titles.csv")
 ```
 
 *Did copilot help you write the code above? Could anything about the prompt be improved to help Copilot understand what you want to do more accurately?*
