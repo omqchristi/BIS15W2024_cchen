@@ -29,10 +29,13 @@ Go to Tools -> Global Options -> Copilot -> Enable Git
 ## Exploration Questions:
 Lets get some get a feel for what copilot (or ChatGPT) does, use Github Copilot to autocomplete the questions below. You can alternatively paste the questions in ChatGPT or Microsoft Copilot.
 1. What is AI?
+AI is the simulation of human intelligence processes by machines, especially computer systems. These processes include learning, reasoning, and self-correction. Specific applications of AI include expert systems, natural language processing (NLP), speech recognition and machine vision.
 
 2. What is ChatGPT?
+ChatGPT is a language model that can generate human-like text based on the input it receives. It is a variant of the GPT-3 model, which is a state-of-the-art language model developed by OpenAI. ChatGPT can be used to generate human-like responses to prompts, answer questions, and even write code.
 
 3. What is Github Copilot?
+Github Copilot is an AI-powered code completion tool developed by Github and OpenAI. It is based on the GPT-3 language model and is designed to help developers write code more efficiently. Copilot can generate code completions, suggest code snippets, and even write entire functions based on the input it receives.
 
 4. [Try it yourself: Insert your own question here]
 
@@ -57,36 +60,37 @@ netflix <- read_csv("../data/netflix_titles.csv")
 ## Lets Practice:
 Explore the elements in your data: include a comment within your code chunk to prompt Copilot to use the function of your choice
 ```{r}
-
-
+#use the function of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine how NAs are treated in the data.
+glimpse(netflix)
 ```
 *Did copilot use your preferred method to get the summary of the data? If not, how could you improve the prompt to get the desired output?*
 
 
 Sort out the movies from the netflix into an new object called netflix_movies
 ```{r} 
-
+netflix_movies <- netflix %>% filter(type == "Movie")
 ```
 
 
 Which director has the most movies on netflix?
 ```{r}
-
-
+netflix_movies %>% count(director, sort = TRUE)
 ```
 *Do you see anything wrong with the table above, look at row 1. Write a prompt below to fix this.*
 
-[insert your prompt here]
+Which director has the most movies on netflix? Make sure to remove any NAs.
 ```{r}
+netflix_movies %>% count(director, sort = TRUE) %>% drop_na()
 
+# do it again, but remember to separate the director column into multiple columns before counting
+netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na()
 ```
 
 
 
 Which director had the most movies by release year and remove the NA's?
 ```{r}
-
-
+netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, release_year, sort = TRUE) %>% drop_na()
 ```
 *See anything else interesting about this table, look at the first director on the table. Could this be a problem and how can we edit the dataset to fix this? Try writing a prompt.*
 
@@ -100,23 +104,23 @@ Which director had the most movies by release year and remove the NA's?
 
 Make a bar plot of the top directors with the most movies on netflix
 ```{r}
-
-
+netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n)) + geom_col() + coord_flip()
 ```
 *Do you see any issues with this plot? How could we improve the prompt to get a better boxplot? Try writing a prompt.*
 
-[Insert your prompt here]
+Make another plot, but add color, titles, and other labels.
 ```{r}
+netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n, fill = director)) + geom_col() + coord_flip() + labs(title = "Top 10 Directors with the Most Movies on Netflix", x = "Directors", y = "Number of Movies") + theme_minimal()
 
+# do it again, but add the number of movies to the plot.
+netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n, fill = director)) + geom_col() + coord_flip() + labs(title = "Top 10 Directors with the Most Movies on Netflix", x = "Directors", y = "Number of Movies") + theme_minimal() + geom_text(aes(label = n), hjust = -0.2, size = 3)
 ```
 
 *How about for just 2020*
 
 
-
-[Insert your prompt here]
 ```{r}
-
+netflix_movies %>% filter(release_year == 2020) %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n, fill = director)) + geom_col() + coord_flip() + labs(title = "Top 10 Directors with the Most Movies on Netflix in 2020", x = "Directors", y = "Number of Movies") + theme_minimal() + geom_text(aes(label = n), hjust = -0.2, size = 3)
 ```
 
 
@@ -125,10 +129,70 @@ Make a bar plot of the top directors with the most movies on netflix
 
 
 
-
-
 ## Lets make the top 10 directors barplot into a Shiny App: use copilot or Chatgpt
 
+```{r}
+# Create a Shiny app that displays the top 10 directors with the most movies on Netflix
+ui <- fluidPage(
+  titlePanel("Top 10 Directors with the Most Movies on Netflix"),
+  mainPanel(
+    plotOutput("top_directors")
+  )
+)
+server <- function(input, output, session) {
+  session$onSessionEnded(stopApp)
+  output$top_directors <- renderPlot({
+    netflix_movies %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n, fill = director)) + geom_col() + coord_flip() + labs(title = "Top 10 Directors with the Most Movies on Netflix", x = "Directors", y = "Number of Movies") + theme_minimal() + geom_text(aes(label = n), hjust = -0.2, size = 3)
+  })
+}
+shinyApp(ui = ui, server = server)
+```
+```{r}
+# do it again, but make the year reactive.
+ui <- fluidPage(
+  titlePanel("Top 10 Directors with the Most Movies on Netflix"),
+  mainPanel(
+    selectInput("year", "Select Year", choices = unique(netflix_movies$release_year)),
+    plotOutput("top_directors")
+  )
+)
+server <- function(input, output, session) {
+  session$onSessionEnded(stopApp)
+  output$top_directors <- renderPlot({
+    netflix_movies %>% filter(release_year == input$year) %>% separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% pivot_longer(cols = starts_with("director"), values_to = "director") %>% count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% ggplot(aes(x = reorder(director, n), y = n, fill = director)) + geom_col() + coord_flip() + labs(title = paste("Top 10 Directors with the Most Movies on Netflix in", input$year), x = "Directors", y = "Number of Movies") + theme_minimal() + geom_text(aes(label = n), hjust = -0.2, size = 3)
+  })
+}
+shinyApp(ui = ui, server = server)
+```
+
+```{r}
+# do the above, but with the whole `netflix` dataset and make "type" reactive.
+ui <- fluidPage(
+  titlePanel("Top 10 Directors on Netflix"),
+  mainPanel(
+    selectInput("type", "Select Type", choices = unique(netflix$type)),
+    plotOutput("top_directors")
+  )
+)
+server <- function(input, output, session) {
+  session$onSessionEnded(stopApp)
+  output$top_directors <- renderPlot({
+    netflix %>% filter(type == input$type) %>% 
+      separate(director, sep = ",", into = c("director1", "director2", "director3")) %>% 
+      pivot_longer(cols = starts_with("director"), values_to = "director") %>% 
+      count(director, sort = TRUE) %>% drop_na() %>% head(10) %>% 
+      ggplot(aes(x = reorder(director, n), y = n, fill = director)) + 
+        geom_col() + 
+        coord_flip() + 
+        labs(title = paste("Top 10 Directors with the Most Movies on Netflix in", input$type), 
+             x = "Directors", 
+             y = "Number of Movies") + 
+      theme_minimal() + 
+      geom_text(aes(label = n), hjust = -0.2, size = 3)
+  })
+}
+shinyApp(ui = ui, server = server)
+```
 
 *Now use ChatGPT, Copilot or previous notes to fix the code*
 
