@@ -1,8 +1,10 @@
 ---
 title: "BIS15L_AI_hmwk"
-author: "Your Name"
+author: "Christina Chen"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document: 
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Instructions
-This homework is a bit less traditional this week. There are some errors in the code below. In addition add notes and titles to the code chunks that explains what the code chunck does. Use AI tools, notes from class, or any other resources to help fix the errors. Feel free to edit any plots to your preference. Don't forget to answer the two questions at the bottom. Upon completion, you should not have to '#' out any of the code chunks.
+This homework is a bit less traditional this week. There are some errors in the code below. In addition add notes and titles to the code chunks that explains what the code chunk does. Use AI tools, notes from class, or any other resources to help fix the errors. Feel free to edit any plots to your preference. Don't forget to answer the two questions at the bottom. Upon completion, you should not have to '#' out any of the code chunks.
 
 Push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.   
 
@@ -26,22 +28,24 @@ library(dplyr)
 
 1.
 ```{r}
-blood_count <- read_csv("data/blood_count.csv")
+blood_count <- read_csv("../data/blood_count_dataset.csv")
+# path was wrong, csv file is called "blood_count_dataset.csv"
 ```
 
 2. 
 ```{r}
-glmpse(blood_count)
-
+glimpse(blood_count)
+#t he function is called glimpse, not glmpse```
 ```
 
 3. 
 ```{r}
 blood_count %>% 
-  group_by(gender) %>% 
-  summarize(min=min(red_blood_cells)
-            mean=maen(red_blood_cells),
-            max=max(red_blood_cells)
+  group_by(Gender) %>% 
+  summarize(min=min(Red_Blood_Cells),
+            mean=mean(Red_Blood_Cells),
+            max=max(Red_Blood_Cells))
+# there was a missing capitalization, a missing comma, and mean was spelled wrong
 ```
 
 
@@ -50,65 +54,74 @@ blood_count %>%
 options(scipen = 999, digits = 2)
 
 blood_count %>% 
-  filter(Gender = "male") %>%
-  select[3:9] %>%
+  filter(Gender == "Male") %>%
+  select(3:9) %>%
   colMeans(na.rm = TRUE)
-
+# there was a missing equal sign, Male needs to be capitalized, and select should be a function
 ```
 
 5. 
 ```{r}
-bloood_count %>% 
-  filter(Gender = "Female") />%
-  select[3:9] %>%
+blood_count %>% 
+  filter(Gender == "Female") %>%
+  select(3:9) %>%
   colMeans(na.rm = T)
+# there was a missing equal sign, pipe needs to be fixed, blood was misspelled, and select should be a function
 ```
 
 
 6. 
 ```{r}
-
-blood_count %>%
-  pivot_wider(cols = [3:9], names_to = "Test", values_to = "Values") %>%
+blood_count %>% 
+  pivot_longer(cols = 3:9, names_to = "Test", values_to = "Values") %>%
   ggplot(aes(x = Gender, y = Values, fill = Gender)) +
   geom_boxplot() +
-  facet(~ Test, scales = "free") 
+  facet_wrap(~ Test, scales = "free") +
   labs(title = "Boxplot of Blood Count Tests",
        x = "Test",
        y = "Values")
-
+# there was a missing comma, brackets should be parentheses, and facet should be facet_wrap, and a plus is missing
 ```
 
 7. 
 ```{r}
 grouped_bc <- blood_count %>%
-  change(Age_Group = case_when(
+  mutate(Age_Group = case_when(
     Age >= 20 & Age <= 29 ~ "20s",
     Age >= 30 & Age <= 39 ~ "30s",
     Age >= 40 & Age <= 49 ~ "40s",
     Age >= 50 & Age <= 59 ~ "50s",
-    Age >= 60 & Age <= 70 ~ "60s")) # there were only 4 people in 70s, so I combined it with 60s
+    Age >= 60 & Age <= 70 ~ "60s+")) # there were only 4 people in 70s, so I combined it with 60s
 
 head(grouped_bc)
-
+# the function should be mutate, and I added + to the 60s since there were 4 people in their 70s
 ```
 
 8. 
 ```{r}
-blood_count %>%
+grouped_bc %>%
   pivot_longer(cols = 3:9, names_to = "Test", values_to = "Values") %>%
-  ggplot(ase(x = Age_Group, y = values, fill = Age_Group)) +
+  ggplot(aes(x = Age_Group, y = Values, fill = Age_Group)) +
   geom_boxplot() +
-  facet_wrap( Test, scales = "free") +  # Facet by the "Test" variable
+  facet_wrap(~Test, scales = "free") +  # Facet by the "Test" variable
   labs(title = "Boxplot of Blood Count Tests by Age Group",
        x = "Age Group",
        y = "Values")
-
+# ase should be aes, values should be Values, and facet_wrap should have a ~, and data should be grouped_bc
 ```
 9. What are two drawbacks and two benefits of AI?
 
+Drawbacks:
+- not always accurate
+- you have to be specific with your input
+
+Benefits:
+- can propose different solutions
+- learns from your code and can helps you improve
+
 10. Do you think you will use AI for coding in the future? Why or why not?
 
+Yes, I think I will use AI for coding in the future. Even now, I use AI to help me with my coding. It helps me catch errors and suggests different solutions. It also helps me when I forget how to use a certain function or when I need help with formatting. Using AI with coding will be more common in the future, and I think it will make coding faster, easier, and simpler.
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
